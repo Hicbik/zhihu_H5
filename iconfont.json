@@ -1,0 +1,10 @@
+{
+    "symbol_url": "http://at.alicdn.com/t/font_1717731_wovjrrnutda.js",
+    "use_typescript": true,
+    "save_dir": "./src/components/iconfont",
+    "generate_mode": "depends-on",
+    "trim_icon_prefix": "icon",
+    "unit": "px",
+    "default_icon_size": 16,
+    "summary_component_name": "Icon"
+}
