@@ -1,12 +1,12 @@
-import React, {FC, useState, useRef, useEffect} from 'react'
-import {useHistory} from 'react-router-dom'
+import React, { FC, useState, useRef, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import ReactQuill from 'react-quill'
 import styled from 'styled-components'
-import {Toast} from 'antd-mobile'
+import { Toast } from 'antd-mobile'
 import PrimaryButton from './PrimaryButton'
 import AuthorAvatar from './AuthorAvatar'
 import '../static/css/quill.css'
-import {QuestionRequest} from '../utils/request'
+import { QiniuUpload, QuestionRequest } from '../utils/request'
 
 
 interface Props {
@@ -34,7 +34,30 @@ const ReplyEdit: FC<Props> = ({question_id, nickname, avatar, one_sentence_intro
         setLoading(true)
         if (loading) return
         const content = quill.current.getEditor().getText()
-        const res: any = await QuestionRequest.createReplay({content, content_html: value, question_id, history})
+
+
+        const reg = /<img [^>]*src=['"]([^'"]+)[^>]*>/gi
+        const imgList: any[] = []
+        const imgUrlList: any[] = []
+        let index = -1
+        value.replace(reg, (match, capture) => {
+            imgList.push(capture)
+            return match
+        })
+
+        for (let value of imgList) {
+            const res: any = await QiniuUpload.questionImg({base64Data: value, state: {_id: question_id}})
+            imgUrlList.push(`http://cdn.sujie.ink/${res.key}`)
+        }
+
+        const valueHtml = value.replace(reg, () => {
+            index += 1
+            return `<img src="${imgUrlList[index]}" alt="" />`
+        })
+
+        const res: any = await QuestionRequest.createReplay(
+            {content, content_html: valueHtml, question_id, history,image_field:imgUrlList}
+        )
         if (!res) return
         setLoading(false)
         Toast.success('回答成功!', 1.5, () => onReplySuccess(res.data._id, res.question))
@@ -73,6 +96,7 @@ const ReplyEdit: FC<Props> = ({question_id, nickname, avatar, one_sentence_intro
             />
             <div style={{display: 'flex', justifyContent: 'flex-end', padding: 10}}>
                 <PrimaryButton
+                    disabled={loading}
                     loading={loading}
                     onClick={_onButton}
                 >提交回答</PrimaryButton>
@@ -89,6 +113,9 @@ background-color: #fff;
   border-bottom:1px solid #ebebeb;
   border-top:1px solid #ebebeb;
   padding-bottom: 8px;
+}
+.ql-editor {
+  padding: 12px 15px;
 }
 `
 

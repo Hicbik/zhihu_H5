@@ -1,18 +1,18 @@
-import React, {FC, useState, useRef} from 'react'
+import React, { FC, useState, useRef } from 'react'
 import styled from 'styled-components'
-import {useHistory} from 'react-router-dom'
-import {TextField} from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
+import { TextField } from '@material-ui/core'
 import AuthorAvatar from './AuthorAvatar'
-import {DiffTime} from '../utils/time'
+import { DiffTime } from '../utils/time'
 import LikeButton from './LikeButton'
 import IconArrowUp from './iconfont/IconArrowUp'
 import IconArrowDown from './iconfont/IconArrowDown'
 import IconPinglun from './iconfont/IconPinglun'
 import IconZuozhe from './iconfont/IconZuozhe'
 import PrimaryButton from './PrimaryButton'
-import {CommentRequest} from '../utils/request'
+import { CommentRequest } from '../utils/request'
 import ReplyComment from './ReplyComment'
-import {Toast} from 'antd-mobile'
+import { Toast } from 'antd-mobile'
 
 
 interface Props {
@@ -71,18 +71,22 @@ const ReplyItem: FC<Props> = ({value, user_id, question_user_id}) => {
         // @ts-ignore
         await ReplyItem.current.setData()
         setCommentValue('')
-        Toast.success('评论成功!',1.5)
+        Toast.success('评论成功!', 1.5)
     }
 
 
     return (
-        <Item>
+        <Item className='ql-snow'>
             <AuthorAvatar
                 nickname={value.user_id.nickname}
                 avatar={value.user_id.avatar}
                 one_sentence_introduction={value.user_id.one_sentence_introduction}
+                onTap={() => setTimeout(() => history.push('/people/' + value.user_id._id), 500)}
             />
-            <Content dangerouslySetInnerHTML={{__html: value.content_html}} className={show ? 'show' : ''} />
+            <Content
+                dangerouslySetInnerHTML={{__html: value.content_html}}
+                className={show ? 'show ql-editor' : 'ql-editor'}
+            />
             {
                 !show && (
                     <UnfoldButton className='color-175199' onClick={() => setShow(true)}>
@@ -178,12 +182,11 @@ color: #1a1a1a;
 word-break: break-word;
 max-height: 300px;
 mask-image: linear-gradient(#1a1a1a calc(100% - 8rem),transparent calc(100% - 1rem));
+overflow: hidden !important;
 &.show {
   mask-image: none;
   max-height: initial;
-}
-ul li {
-  margin-left: 20px;
+  overflow: scroll !important;
 }
 `
 const Time = styled('div')`

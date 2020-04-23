@@ -1,9 +1,21 @@
-import React, {FC, useState} from 'react'
+import React, { FC, useState, useCallback } from 'react'
 import styled from 'styled-components'
+import ReplyList from '../components/ReplyList'
+import { QuestionRequest } from '../utils/request'
 
-const PeopleTab: FC = () => {
+
+interface Props {
+    user: any
+}
+
+const PeopleTab: FC<Props> = ({user}) => {
     const nav = ['动态', '回答', '文章', '提问']
     const [active, setActive] = useState(() => nav[0])
+
+    const ReplyRequest = useCallback(({page}: { page: number }) => {
+        return QuestionRequest.PeopleReply({_id: user._id, page})
+    }, [])
+
     return (
         <Wrapper>
             <TabNav>
@@ -11,10 +23,12 @@ const PeopleTab: FC = () => {
                     nav.map(value => (
                         <span
                             key={value} className={active === value ? 'active' : ''}
-                            onClick={() => setActive(value)}>{value}</span>
+                            onClick={() => setActive(value)}>{value}
+                        </span>
                     ))
                 }
             </TabNav>
+            <ReplyList Request={ReplyRequest} user={user} />
         </Wrapper>
     )
 }

@@ -1,10 +1,11 @@
-import React, {FC, useState, useRef} from 'react'
-import {Toast} from 'antd-mobile'
+import React, { FC, useRef, useState } from 'react'
+import { Toast } from 'antd-mobile'
 import ReactQuill from 'react-quill'
-import {useHistory} from 'react-router-dom'
-import {Wrapper, TitleInput, AddButton, TopicItem, Topic, TopicInput} from './style'
+import { useHistory } from 'react-router-dom'
+import { useTypedSelector } from '../../store/reducer'
+import { AddButton, TitleInput, Topic, TopicInput, TopicItem, Wrapper } from './style'
 import PrimaryButton from '../../components/PrimaryButton'
-import {QuestionRequest} from '../../utils/request'
+import { QiniuUpload, QuestionRequest } from '../../utils/request'
 import Header from '../../components/Header'
 import IconHao from '../../components/iconfont/IconHao'
 import IconClose from '../../components/iconfont/IconClose'
@@ -18,6 +19,7 @@ interface TopicProps {
 
 const NewQuestion: FC = () => {
     const history = useHistory()
+    const state = useTypedSelector(state => state.User)
     const quill: any = useRef(null)
     const [value, setValue] = useState('')
     const [title, setTitle] = useState('')
@@ -33,11 +35,33 @@ const NewQuestion: FC = () => {
     const _onButton = async () => {
         setLoading(true)
         const content = quill.current.getEditor().getText()
+
+        const reg = /<img [^>]*src=['"]([^'"]+)[^>]*>/gi
+        const imgList: any[] = []
+        const imgUrlList: any[] = []
+        let index = -1
+        value.replace(reg, (match, capture) => {
+            imgList.push(capture)
+            return match
+        })
+
+        for (let value of imgList) {
+            const res: any = await QiniuUpload.questionImg({base64Data: value, state})
+            imgUrlList.push(`http://cdn.sujie.ink/${res.key}`)
+        }
+
+        const valueHtml = value.replace(reg, () => {
+            index += 1
+            return `<img src="${imgUrlList[index]}" alt="" />`
+        })
+
+
         const res: any = await QuestionRequest.create({
             title,
             topic: topic.list,
             content,
-            content_html: value,
+            content_html: valueHtml,
+            image_field: imgUrlList,
             history
         })
         if (!res) return
@@ -78,8 +102,8 @@ const NewQuestion: FC = () => {
                 onChange={setValue}
                 placeholder=' 对问题的描述说明，可以更快获得解答(当然不写也行)'
                 modules={{
-                    toolbar: [
-                        [
+                    toolbar: {
+                        container: [
                             {'header': [1, 2, 3, 4, 5, 6, false]},
                             'bold',
                             'italic',
@@ -89,9 +113,11 @@ const NewQuestion: FC = () => {
                             {'list': 'bullet'},
                             'image'
                         ]
-                    ],
+                    }
                 }}
+
                 style={{backgroundColor: '#fff', minHeight: 320}}
+
             />
             <Topic>
                 {
@@ -123,7 +149,7 @@ const NewQuestion: FC = () => {
                         <div className='add-topic'>
                             <TopicInput
                                 autoFocus
-                                maxLength={20}
+                                maxLength={10}
                                 value={topic.value}
                                 onChange={event => setTopic({...topic, value: event.target.value})}
                             />
@@ -135,9 +161,10 @@ const NewQuestion: FC = () => {
             <div style={{padding: 10}}>
                 <PrimaryButton
                     fullWidth
-                    disabled={isDisabled}
+                    disabled={isDisabled || loading}
                     onClick={_onButton}
                     loading={loading}
+                    disableElevation={false}
                 >
                     发布问题
                 </PrimaryButton>

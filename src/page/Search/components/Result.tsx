@@ -43,7 +43,7 @@ const Result: FC<Props> = ({value, count}) => {
                 tabBarUnderlineStyle={{display: 'none'}}
                 tabBarActiveTextColor='#1a1a1a'
                 tabBarInactiveTextColor='#999'
-                destroyInactiveTab={true}
+                destroyInactiveTab
                 onChange={_onChangeTab}
             >
                 <TabView height={height}>

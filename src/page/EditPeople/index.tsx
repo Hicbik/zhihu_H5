@@ -6,6 +6,7 @@ import {PhotoCamera} from '@material-ui/icons'
 import {Wrapper} from './style'
 import {UserRequest, QiniuUpload} from '../../utils/request'
 import Header from './components/Header'
+import {Toast} from 'antd-mobile'
 
 
 const EditPeople: FC = () => {
@@ -16,47 +17,59 @@ const EditPeople: FC = () => {
         nickname: '',
         one_sentence_introduction: '',
         gender: '1',
-        introduction: ''
+        introduction: '',
+        load: false
     })
     const [avatar, setAvatar] = useState<any>('')
     const file: any = useRef()
 
     useEffect(() => {
         ;(async () => {
-            if (!state._id) return
+            if (!state._id) return history.push('/signIn')
             const res: any = await UserRequest.people({_id: state._id!})
             setUser({
                 nickname: res.data.nickname,
                 one_sentence_introduction: res.data.one_sentence_introduction,
                 gender: res.data.gender.toString(),
-                introduction: res.data.introduction
+                introduction: res.data.introduction,
+                load: true
             })
             setAvatar(res.data.avatar)
         })()
+        // eslint-disable-next-line
     }, [state._id])
 
 
     const _setAvatar = (event: any) => {
-        if (!event.target.files.length) return
+        if (!event.target.files.length) {
+            setAvatar(state.avatar)
+            file.current = null
+            return
+        }
         file.current = event.target.files
-
         const reader = new FileReader()
-
         reader.readAsDataURL(file.current[0])
         reader.onloadend = () => setAvatar(reader.result)
 
     }
 
     const _onButton = async () => {
+        if (!user.nickname.length) return Toast.offline('昵称不能为空哦!', 1.5)
+
+        let i = 0
+        for (let key in user) {
+            // @ts-ignore
+            i = state[key] === user[key] ? i + 1 : i
+        }
+        i = avatar === state.avatar ? i + 1 : i
+        if (i === 4) return Toast.offline('明明都没有编辑过!', 1.5)
+
+        Toast.loading('编辑中...', 0)
         let avatarUrl: string = ''
-
-
         if (file.current) {
             const res: any = await QiniuUpload.uploadImg({file: file.current[0], state})
             avatarUrl = res.key
         }
-
-
         const res = await UserRequest.Edit({
             history,
             nickname: user.nickname,
@@ -65,23 +78,25 @@ const EditPeople: FC = () => {
             introduction: user.introduction,
             avatar: avatarUrl
         })
+        Toast.hide()
         if (!res) return
-
+        if (res.state === 'err') Toast.fail(res.errMsg, 1.5)
+        Toast.success('保存成功!', 1.5)
     }
 
     return (
         <Wrapper>
             <Header history={history} onButton={_onButton} />
             {
-                !!user.nickname.length && (
+                user.load && (
                     <main>
-                        <IconButton className='avatar'>
+                        <IconButton className={avatar === state.avatar ? 'avatar' : 'avatar hid'}>
                             <img src={avatar} alt="" />
                             <PhotoCamera />
                             <input
                                 type='file'
                                 onChange={_setAvatar}
-                                accept='.jpg,.jpeg,.png'
+                                accept='image/*'
                             />
                         </IconButton>
                         <h3>基本资料</h3>
@@ -96,6 +111,7 @@ const EditPeople: FC = () => {
                                             ...user,
                                             nickname: event.target.value
                                         })}
+                                        maxLength={10}
                                     />
                                 </label>
                             </li>
@@ -148,6 +164,10 @@ const EditPeople: FC = () => {
                             fullWidth
                             value={user.introduction}
                             onChange={event => setUser({...user, introduction: event.target.value})}
+                            inputProps={{
+                                maxLength: 200
+                            }}
+                            multiline
                         />
                     </main>
                 )

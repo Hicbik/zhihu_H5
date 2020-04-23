@@ -20,8 +20,8 @@ const QuestionHeader: FC<Props> = ({title, content, content_html, _onWriteAnswer
     return (
         <Wrapper>
             <Title>{title}</Title>
-            <Content>
-                <Problem className={show ? 'show' : ''} dangerouslySetInnerHTML={{__html: content_html}} />
+            <Content className='ql-snow'>
+                <Problem className={show ? 'show ql-editor' : 'ql-editor'} dangerouslySetInnerHTML={{__html: content_html}} />
                 {
                     !show && (
                         <button className='btn color-175199' onClick={() => setShow(true)}>
@@ -117,10 +117,11 @@ max-height: 100px;
 mask-image: linear-gradient(#1a1a1a calc(100% - 8rem),transparent calc(100% - 2.8rem));
 mask-size: 100% 100%;
 line-height: 1.67;
-overflow:hidden;
+overflow:hidden !important;
 &.show {
   mask-image: none;
   max-height: initial;
+  overflow: scroll !important;
 `
 
 

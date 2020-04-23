@@ -9,6 +9,16 @@ main {
 
 .avatar {
   position: relative;
+  
+  &.hid {
+    &::before {
+      display: none;
+    }
+    svg {
+      display: none;
+    }
+  }
+  
   img {
      width: 80px;
      height: 80px;

@@ -10,6 +10,7 @@ import HotQuestionsList from '../../components/HotQuestionsList'
 import {QuestionRequest} from '../../utils/request'
 import QuestionAd from '../../components/QuestionAd'
 import ReplyEdit from '../../components/ReplyEdit'
+import '../../static/css/quill.css'
 
 
 interface data {
@@ -91,10 +92,11 @@ const Question: FC = () => {
 
     return (
         <Wrapper>
+            <Header />
+
             {
                 data._id && (
                     <Fragment>
-                        <Header />
                         <QuestionHeader
                             title={data.title!}
                             content={data.content!}

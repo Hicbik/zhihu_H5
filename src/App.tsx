@@ -34,7 +34,7 @@ const App: FC = () => {
                         <Route
                             path={['/', '/home/:tab']}
                             component={lazy(() => import('./page/Home'))}
-                            title='知乎- 有问题,上知乎'
+                            title='知乎 - 有问题,上知乎'
                             exact
                         />
                         <Route

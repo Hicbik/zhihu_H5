@@ -1,13 +1,13 @@
-import React, {FC, useState, useEffect, Fragment, useRef} from 'react'
+import React, { FC, useState, useEffect, Fragment, useRef } from 'react'
 import styled from 'styled-components'
-import {useHistory} from 'react-router-dom'
-import {List, ListItem} from '@material-ui/core'
-import {DiffTime} from '../utils/time'
+import { useHistory } from 'react-router-dom'
+import { List, ListItem } from '@material-ui/core'
+import { DiffTime } from '../utils/time'
 import ListSkeleton from './ListSkeleton'
 import IconShangjiantou1 from './iconfont/IconShangjiantou1'
 import IconXiajiantou1 from './iconfont/IconXiajiantou1'
 import IconPinglun from './iconfont/IconPinglun'
-import {useTypedSelector} from '../store/reducer'
+import { useTypedSelector } from '../store/reducer'
 import IconChakan from './iconfont/IconChakan'
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 }
 
 interface useProps extends Props {
-    mapHighlight: (reg: any, data: any[]) => any[]
+    mapHighlight?: (reg: any, data: any[]) => any[]
 }
 
 
@@ -46,7 +46,8 @@ const useList = ({Request, Highlight, mapHighlight, isShow}: useProps) => {
             if (Highlight) {
                 // eslint-disable-next-line
                 const reg = eval(`/` + Highlight + '/')
-                res.data = mapHighlight(reg, res.data)
+                res.data = mapHighlight!(reg, res.data)
+
             }
             page === 1 ? setList([...res.data]) : setList(prevState => ([...prevState, ...res.data]))
             if (res.data.length < 8) {
@@ -110,19 +111,23 @@ const QuestionList: FC<Props> = ({Request, Highlight, isShow = true}) => {
     const DefaultContent = ({value}: { value: any }) => (
         <Fragment>
             <section>
-                <TextWrapper className={value.image_field && 'des'} dangerouslySetInnerHTML={{__html: value.content}} />
-                {value.image_field && <img src={'https:' + value.image_field.url} className='small-img' alt='' />}
+                <TextWrapper
+                    className={!!value.image_field.length ? 'des' : ''}
+                    dangerouslySetInnerHTML={{__html: value.content}}
+                />
+                {
+                    !!value.image_field.length && (
+                        <img src={value.image_field[0]} className='small-img' alt='' />
+                    )
+                }
             </section>
             <Footer>
                 {
                     value.topic.filter((value: any, index: number) => index < 2).map((value: any) => (
-                        <Fragment key={value}>
-                            <span>{value}</span>
-                            <span className='point'>·</span>
-                        </Fragment>
+                        <span key={value} className='topic'>{value}</span>
                     ))
                 }
-                <span>{DiffTime(value.create_time)} 发布</span>
+                <span style={{marginLeft: 3}}>{DiffTime(value.create_time)} 发布</span>
                 {
                     !!value.focus_problem_count && (
                         <Fragment>
@@ -139,10 +144,14 @@ const QuestionList: FC<Props> = ({Request, Highlight, isShow = true}) => {
         <Fragment>
             <section>
                 <TextWrapper
-                    className={value.image_field && 'des'}
+                    className={!!value.image_field.length ? 'des' : ''}
                     dangerouslySetInnerHTML={{__html: value.reply_id[0].reply.content}}
                 />
-                {value.image_field && <img src={'https:' + value.image_field.url} className='small-img' alt='' />}
+                {
+                    !!value.image_field.length && (
+                        <img src={value.image_field[0]} className='small-img' alt='' />
+                    )
+                }
             </section>
             <Footer>
                 <span>{value.reply_id[0].user.nickname} </span>的回答
@@ -156,18 +165,22 @@ const QuestionList: FC<Props> = ({Request, Highlight, isShow = true}) => {
         <Fragment>
             <section>
                 <TextWrapper
-                    className={value.image_field && 'des'}
+                    className={!!value.reply_id[0].reply.image_field.length ? 'des' : ''}
                     dangerouslySetInnerHTML={{__html: `${value.reply_id[0].user.nickname}： ${value.reply_id[0].reply.content}`}}
                 />
-                {value.image_field && <img src={'https:' + value.image_field.url} className='small-img' alt='' />}
+                {
+                    !!value.reply_id[0].reply.image_field.length && (
+                        <img src={value.reply_id[0].reply.image_field[0]} className='small-img' alt='' />
+                    )
+                }
             </section>
             <Footer style={{display: 'flex'}}>
                 <Button>
                     <IconShangjiantou1 color='#0084ff' />
                     <span className='color-0084ff'>赞同</span>
-                    <span
-                        className='color-0084ff'
-                    >{!!value.reply_id[0].reply.like_count && value.reply_id[0].reply.like_count}</span>
+                    <span className='color-0084ff'>
+                        {!!value.reply_id[0].reply.like_count && value.reply_id[0].reply.like_count}
+                    </span>
                 </Button>
                 <Button>
                     <IconXiajiantou1 color='#0084ff' />
@@ -240,9 +253,10 @@ section.item {
       flex: 1;
       padding-top: 11px;
       img.small-img {
-        width: 112px;
+        width: auto;
         height: 74px;
         border-radius: 5px;
+        margin-left: 15px;
       }
     }
     span.red {
@@ -256,7 +270,6 @@ const TextWrapper = styled('div')`
   position: relative;
   -webkit-line-clamp: 3;
   height: 63px;
-  padding-right: 15px;
 }
 -webkit-line-clamp:2;
 overflow:hidden;
@@ -275,6 +288,13 @@ color: #999999;
 }
 .mr5 {
   margin-right: 5px;
+}
+span.topic {
+  color: #0084ff;
+  background-color:  rgba(0,132,255,.1);
+  padding: 0 8px;
+  border-radius: 20px;
+  margin-right: 3px;
 }
 `
 const Tips = styled('div')`
@@ -325,7 +345,7 @@ svg {
 
 
 export default QuestionList
-export {useList}
+export { useList }
 
 
 

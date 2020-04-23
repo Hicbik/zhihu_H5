@@ -3,17 +3,6 @@ import styled from 'styled-components'
 export const Wrapper = styled('div')`
 background-color: #f6f6f6;
 padding-top: 50px;
-.antd-button {
-  min-width: 90px;
-  padding: 0 16px;
-  line-height: 32px;
-  height: 32px;
-  font-size: 14px;
-  font-weight: bold;
-  margin-top: 20px;
-  border-radius: 3px;
-  cursor: pointer;
-}
 `
 
 export const UserWrapper = styled('div')`
@@ -31,6 +20,15 @@ background-color: #fff;
     font-size: 15px;
     font-weight: bold;
     margin-left: 10px;
+  }
+}
+.introduction {
+  display:block;
+  font-size: 15px;
+  
+  h3 {
+    font-size: 15px;
+    margin: 5px 0;
   }
 }
 .like {
@@ -52,12 +50,12 @@ background-color: #fff;
 `
 
 export const AvatarWrapper = styled('div')`
-height: 300px;
 display:flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
 position: relative;
+padding-top: 55px;
 &::before {
   content: '';
   width: 100%;
@@ -74,10 +72,14 @@ img {
   position: relative;
   border: 5px solid #fff;
   z-index: 3;
+  object-fit: cover;
 }
 h3 {
   font-size: 24px;
   display:flex;
   align-items: center;
+}
+.MuiButton-root {
+  width: 160px;
 }
 `

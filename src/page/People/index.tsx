@@ -1,14 +1,14 @@
-import React, {FC, useEffect, useState, Fragment} from 'react'
-import {useParams, useHistory} from 'react-router-dom'
-import {Button} from 'antd-mobile'
-import {Wrapper, UserWrapper, AvatarWrapper} from './style'
-import {useTypedSelector} from '../../store/reducer'
-import {UserRequest} from '../../utils/request'
+import React, { FC, useEffect, useState, Fragment } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
+import { Wrapper, UserWrapper, AvatarWrapper } from './style'
+import { useTypedSelector } from '../../store/reducer'
+import { UserRequest } from '../../utils/request'
 import IconDianzan11Copy from '../../components/iconfont/IconDianzan11Copy'
 import PeopleTab from '../../components/PeopleTab'
 import IconNan from '../../components/iconfont/IconNan'
 import IconNv from '../../components/iconfont/IconNv'
 import Header from '../../components/Header'
+import PrimaryButton from '../../components/PrimaryButton'
 
 const People: FC = () => {
     const history = useHistory()
@@ -19,14 +19,14 @@ const People: FC = () => {
 
 
     useEffect(() => {
-        const getAjaxData = async () => {
+        ;(async () => {
             const res = await UserRequest.people({_id: _id!})
             setData({
                 ...res.data,
                 isLike: state.isLogin && res.data.fans.includes(state._id)
             })
-        }
-        getAjaxData()
+            document.title = res.data.nickname + ' - 知乎'
+        })()
         // eslint-disable-next-line
     }, [_id])
 
@@ -50,40 +50,42 @@ const People: FC = () => {
                                     {data.gender === 1 ? <IconNan style={{marginLeft: 8}} /> :
                                         <IconNv style={{marginLeft: 8}} />}
                                 </h3>
-                                <span>{data.one_sentence_introduction}</span>
-                                <span>{data.introduction}</span>
+                                <span style={{margin: '10px 0'}}>{data.one_sentence_introduction}</span>
                                 {
                                     isMy && (
-                                        <Button
-                                            type='primary'
-                                            inline
-                                            className='antd-button'
-                                            onClick={() => history.push('/editPeople')}
-                                        >编辑个人资料</Button>
+                                        <PrimaryButton
+                                            onClick={() => setTimeout(() => history.push('/editPeople'), 500)}
+                                            disableElevation={false}
+                                        >
+                                            编辑个人资料
+                                        </PrimaryButton>
                                     )
                                 }
                                 {
                                     !isMy && (
                                         data.isLike ? (
-                                            <Button
-                                                type='primary'
-                                                inline
-                                                className='antd-button'
-                                                activeStyle={{backgroundColor: '#76839b'}}
-                                                style={{backgroundColor: '#8590a6'}}
-                                                onClick={() => _onLike('noLike')}
-                                            >取消关注</Button>
+                                            <PrimaryButton
+                                                colorType={'gray'}
+                                                onClick={() => setTimeout(() => _onLike('noLike'), 500)}
+                                                disableElevation={false}
+                                            >取消关注</PrimaryButton>
                                         ) : (
-                                            <Button
-                                                type='primary'
-                                                inline
-                                                className='antd-button'
-                                                onClick={() => _onLike('like')}
-                                            >关注ta!</Button>
+                                            <PrimaryButton
+                                                onClick={() => setTimeout(() => _onLike('like'), 500)}
+                                                disableElevation={false}
+                                            >关注ta!</PrimaryButton>
                                         )
                                     )
                                 }
                             </AvatarWrapper>
+                            {
+                                data.introduction && (
+                                    <div className='dianzan introduction'>
+                                        <h3>个人简介</h3>
+                                        <p>{data.introduction}</p>
+                                    </div>
+                                )
+                            }
                             <div className='dianzan'>
                                 <IconDianzan11Copy /><span>{data.like_count} 赞同</span>
                             </div>
@@ -93,7 +95,7 @@ const People: FC = () => {
                                 <a href="/">{data.attention_count} {isMy ? '我' : 'ta'}关注的人</a>
                             </div>
                         </UserWrapper>
-                        <PeopleTab />
+                        <PeopleTab user={data} />
                     </Fragment>
                 )
             }

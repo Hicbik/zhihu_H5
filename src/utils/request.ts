@@ -1,7 +1,7 @@
 import axios from 'axios'
 import * as qiniu from 'qiniu-js'
 import store from '../store'
-import {Toast} from 'antd-mobile'
+import { Toast } from 'antd-mobile'
 
 
 axios.defaults.baseURL = 'http://192.168.31.218:7001/'
@@ -103,9 +103,9 @@ export class UserRequest extends Base {
 export class QuestionRequest extends Base {
     static url = 'question/'
 
-    static create ({title, content, content_html, topic, history}: { title: string, content: string, content_html: string, topic: string[], history: any }) {
+    static create ({title, content, content_html, topic, history, image_field}: { title: string, content: string, content_html: string, topic: string[], history: any, image_field: any[] }) {
         return this.No_Login(history, () => (
-            axios.post(this.url + 'create', {title, content, content_html, topic})
+            axios.post(this.url + 'create', {title, content, content_html, topic, image_field})
         ))
     }
 
@@ -117,9 +117,9 @@ export class QuestionRequest extends Base {
         return axios.get(this.url + 'findOne', {params: {_id}})
     }
 
-    static createReplay ({content, content_html, question_id, history}: { content: string, content_html: string, question_id: string, history: any }) {
+    static createReplay ({content, content_html, question_id, history, image_field}: { content: string, content_html: string, question_id: string, history: any, image_field: any[] }) {
         return this.No_Login(history, () => (
-            axios.post(this.url + 'createReply', {content, content_html, question_id})
+            axios.post(this.url + 'createReply', {content, content_html, question_id, image_field})
         ))
     }
 
@@ -141,6 +141,10 @@ export class QuestionRequest extends Base {
 
     static searchList ({search, page}: { search: string, page: number }) {
         return axios.get(this.url + 'searchList', {params: {page, search}})
+    }
+
+    static PeopleReply ({_id,page}: { _id: string,page:number }) {
+        return axios.get(this.url + 'PeopleReply', {params: {_id}})
     }
 }
 
@@ -168,24 +172,22 @@ export class QiniuUpload {
     static async uploadImg ({file, state}: { file: any, state: any }) {
         return new Promise((resolve, reject) => {
             const token: string = localStorage.getItem('qiniuToken')!
-
             // @ts-ignore
-            const key = 'avatar/' + state._id
-
+            const key = 'avatar/' + state._id + Date.now()
             const config = {
                 useCdnDomain: true,
                 region: qiniu.region.z0
             }
-
             const putExtra = {
                 fname: file.name,
                 params: {},
                 mimeType: ['image/png', 'image/jpeg', 'image/jpg']
             }
             let observe = {
-                next (res: any) {
+                next () {
                 },
-                error (err: any) {
+                error () {
+                    reject()
                 },
                 complete (res: any) {
                     resolve(res)
@@ -193,6 +195,51 @@ export class QiniuUpload {
             }
             const observable = qiniu.upload(file, key, token, putExtra, config)
             observable.subscribe(observe)
+        })
+    }
+
+    static async uploadQuestionImg ({file, state}: { file: any, state: any }) {
+        return new Promise((resolve, reject) => {
+            const token: string = localStorage.getItem('qiniuToken')!
+            // @ts-ignore
+            const key = `question/${state._id}/${Date.now()}`
+            const config = {
+                useCdnDomain: true,
+                region: qiniu.region.z0
+            }
+            const putExtra = {
+                fname: file.name,
+                params: {},
+                mimeType: ['image/png', 'image/jpeg', 'image/jpg']
+            }
+            let observe = {
+                next () {
+                },
+                error () {
+                    reject()
+                },
+                complete (res: any) {
+                    resolve(res)
+                }
+            }
+            const observable = qiniu.upload(file, key, token, putExtra, config)
+            observable.subscribe(observe)
+        })
+    }
+
+    static questionImg ({base64Data, state}: { base64Data: any, state: any }) {
+        const dataURLtoFile = (base64Data: any) => {
+            let arr = base64Data.split(','), mime = arr[0].match(/:(.*?);/)[1]
+            let bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n)
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n)
+            }
+            return new File([u8arr], 'filename', {type: mime})
+        }
+        const file = dataURLtoFile(base64Data)
+        return new Promise((resolve, reject) => {
+            this.uploadQuestionImg({file, state})
+                .then(res => resolve(res))
         })
     }
 }
