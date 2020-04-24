@@ -1,7 +1,7 @@
-import React, { FC, useState, useEffect, useRef, Fragment } from 'react'
+import React, { FC, useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { List, ListItem } from '@material-ui/core'
+import { List } from '@material-ui/core'
 import ListSkeleton from './ListSkeleton'
 
 
@@ -13,8 +13,9 @@ interface Props {
 }
 
 interface ListProps extends Props {
-    RenderListItem: ({value}: { value: any }) => any,
-    LinkTo: (value: any) => string
+    RenderListItem: any,
+    LinkTo: (value: any) => string,
+    user?:any
 }
 
 const useList = ({Request, Highlight, mapHighlight, upOnRefresh}: Props) => {
@@ -86,7 +87,8 @@ const ListBase: FC<ListProps> = ({
     upOnRefresh,
     mapHighlight,
     RenderListItem,
-    LinkTo
+    LinkTo,
+    user
 }) => {
     const history = useHistory()
     const {list, isLoad, ListRef, page} = useList({
@@ -97,18 +99,15 @@ const ListBase: FC<ListProps> = ({
     })
 
     const ListItemLink = ({value}: { value: any }) => (
-        <ListItem
-            button
-            component='section'
-            className='item'
-            onClick={() => setTimeout(() => history.push(LinkTo(value)), 500)}
-        >
-            {RenderListItem({value})}
-        </ListItem>
+        <RenderListItem
+            value={value}
+            LinkTo={() => setTimeout(() => history.push(LinkTo(value)), 500)}
+            user={user}
+        />
     )
 
     return (
-        <Fragment>
+        <Wrapper>
             <List component="nav" aria-label="main mailbox folders" style={{padding: 0}} ref={ListRef}>
                 {list.map(value => <ListItemLink value={value} key={value._id} />)}
             </List>
@@ -123,10 +122,18 @@ const ListBase: FC<ListProps> = ({
                     <Tips>什么也没有找到呢</Tips>
                 )
             }
-        </Fragment>
+        </Wrapper>
     )
 }
 
+const Wrapper = styled('div')`
+width: 100%;
+background-color: #fff;
+
+.MuiListItem-root {
+  display:block;
+}
+`
 
 const Tips = styled('div')`
 font-size: 15px;

@@ -98,6 +98,11 @@ export class UserRequest extends Base {
             })
         ))
     }
+
+    static getDynamic ({user_id,page}: { user_id: string,page:number }) {
+        return axios.get(this.url + 'getDynamic', {params: {user_id,page}})
+    }
+
 }
 
 export class QuestionRequest extends Base {
@@ -127,9 +132,9 @@ export class QuestionRequest extends Base {
         return axios.get(this.url + 'getReply', {params: {question_id, reply_id}})
     }
 
-    static voters ({like, replay_id, history}: { like: { flag: string, type: string }, replay_id: string, history: any }) {
+    static voters ({like, reply_id, history}: { like: { flag: string, type: string }, reply_id: string, history: any }) {
         return this.No_Login(history, () => (
-            axios.post(this.url + 'voters', {like, replay_id})
+            axios.post(this.url + 'voters', {like, reply_id})
         ))
     }
 

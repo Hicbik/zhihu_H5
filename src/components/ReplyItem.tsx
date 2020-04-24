@@ -101,7 +101,7 @@ const ReplyItem: FC<Props> = ({value, user_id, question_user_id}) => {
                     like_id={value.like_id}
                     no_like_id={value.no_like_id}
                     user_id={user_id}
-                    replay_id={value._id}
+                    reply_id={value._id}
                 />
                 <BottomSpan onClick={() => setShowComment(!showComment)}>
                     <IconPinglun color='#8590a6' size={18} />

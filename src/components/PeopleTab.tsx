@@ -1,9 +1,10 @@
 import React, { FC, useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { Tabs } from 'antd-mobile'
-import { QuestionRequest } from '../utils/request'
+import { QuestionRequest, UserRequest } from '../utils/request'
 import ReplyList from '../components/ReplyList'
 import PeopleQuestionList from '../components/PeopleQuestionList'
+import DynamicList from './DynamicList'
 
 interface Props {
     user: any
@@ -25,6 +26,11 @@ const PeopleTab: FC<Props> = ({user}) => {
         return QuestionRequest.PeopleQuestion({_id: user._id, page})
     }, [user._id])
 
+
+    const DynamicRequest = useCallback(({page}) => {
+        return UserRequest.getDynamic({user_id: user._id, page})
+    }, [user._id])
+
     return (
         <Wrapper>
             <Tabs
@@ -35,7 +41,7 @@ const PeopleTab: FC<Props> = ({user}) => {
                 onChange={_onChangeTab}
             >
                 <TabView height={height}>
-                    1
+                    <DynamicList Request={DynamicRequest} user={user} upOnRefresh={tabIndex === 0} />
                 </TabView>
                 <TabView height={height}>
                     <ReplyList Request={ReplyRequest} user={user} upOnRefresh={tabIndex === 1} />

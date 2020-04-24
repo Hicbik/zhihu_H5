@@ -10,10 +10,10 @@ interface Props {
     like_id: string[],
     no_like_id: string[],
     user_id: string,
-    replay_id: string
+    reply_id: string
 }
 
-const LikeButton: FC<Props> = ({num, like_id, no_like_id, user_id, replay_id}) => {
+const LikeButton: FC<Props> = ({num, like_id, no_like_id, user_id, reply_id}) => {
     const history = useHistory()
     const [flag, setFlag] = useState('no')
     const [likeCount, setLikeCount] = useState(() => num!)
@@ -35,7 +35,7 @@ const LikeButton: FC<Props> = ({num, like_id, no_like_id, user_id, replay_id}) =
             type = 'no'
             flagNum = '3'
         }
-        const res: any = await QuestionRequest.voters({history, like: {type: pType, flag: flagNum!}, replay_id})
+        const res: any = await QuestionRequest.voters({history, like: {type: pType, flag: flagNum!}, reply_id})
         if (!res) return
         setFlag(type)
         setLikeCount(res.data.like_count)

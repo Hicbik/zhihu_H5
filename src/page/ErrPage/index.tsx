@@ -1,18 +1,22 @@
-import React, {FC} from 'react'
+import React, { FC } from 'react'
 import PrimaryButton from '../../components/PrimaryButton'
 import styled from 'styled-components'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
-const ErrPage: FC = () => {
+interface Props {
+    text?: string
+}
+
+const ErrPage: FC<Props> = ({text}) => {
     const history = useHistory()
     return (
         <Wrapper>
             <img src="https://zhstatic.zhihu.com/assets/error/liukanshan_wire.svg" alt="" />
-            <p className='color-8590a6'>你好像来到了一个什么都没有的世界!</p>
+            <p className='color-8590a6'>{text ? text : '你好像来到了一个什么都没有的世界!'}</p>
             <PrimaryButton
                 fullWidth
                 disableElevation={false}
-                onClick={()=>history.push('/')}
+                onClick={() => history.push('/')}
             >
                 回到首页
             </PrimaryButton>

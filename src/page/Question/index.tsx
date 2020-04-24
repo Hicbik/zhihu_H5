@@ -11,6 +11,7 @@ import {QuestionRequest} from '../../utils/request'
 import QuestionAd from '../../components/QuestionAd'
 import ReplyEdit from '../../components/ReplyEdit'
 import '../../static/css/quill.css'
+import ErrPage from '../ErrPage'
 
 
 interface data {
@@ -21,7 +22,8 @@ interface data {
     reply_count?: number,
     user_id?: string,
     reply_id?: { user: string, reply: string }[],
-    focus_problem?: string[]
+    focus_problem?: string[],
+    err?:boolean
 }
 
 const Question: FC = () => {
@@ -36,7 +38,10 @@ const Question: FC = () => {
     useEffect(() => {
         ;(async () => {
             const res: any = await QuestionRequest.findOne({_id})
-            if (res.state === 'err') return
+            if (res.state === 'err') {
+                setData({err:true})
+                return
+            }
             setData({...res.data})
             document.title = `${res.data.title} -知乎`
         })()
@@ -91,7 +96,7 @@ const Question: FC = () => {
 
 
     return (
-        <Wrapper>
+        <Wrapper err={data.err}>
             <Header />
 
             {
@@ -146,6 +151,11 @@ const Question: FC = () => {
 
                         <HotQuestionsList history={history}/>
                     </Fragment>
+                )
+            }
+            {
+                data.err && (
+                    <ErrPage text='找不到了...提出问题的人被解决了!?'/>
                 )
             }
         </Wrapper>

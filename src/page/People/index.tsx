@@ -9,6 +9,7 @@ import IconNan from '../../components/iconfont/IconNan'
 import IconNv from '../../components/iconfont/IconNv'
 import Header from '../../components/Header'
 import PrimaryButton from '../../components/PrimaryButton'
+import ErrPage from '../ErrPage'
 
 const People: FC = () => {
     const history = useHistory()
@@ -20,7 +21,12 @@ const People: FC = () => {
 
     useEffect(() => {
         ;(async () => {
+            window.scrollTo(0, 0)
             const res = await UserRequest.people({_id: _id!})
+            if (res.state === 'err') {
+                setData({err: true})
+                return
+            }
             setData({
                 ...res.data,
                 isLike: state.isLogin && res.data.fans.includes(state._id)
@@ -38,7 +44,7 @@ const People: FC = () => {
     }
 
     return (
-        <Wrapper>
+        <Wrapper err={data.err}>
             <Header />
             {
                 data._id && (
@@ -97,6 +103,11 @@ const People: FC = () => {
                         </UserWrapper>
                         <PeopleTab user={data} />
                     </Fragment>
+                )
+            }
+            {
+                data.err && (
+                    <ErrPage text='这个人可能没了吧!?'/>
                 )
             }
         </Wrapper>
