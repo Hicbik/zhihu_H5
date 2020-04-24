@@ -1,112 +1,23 @@
-import React, { FC, useState, useEffect, Fragment, useRef } from 'react'
+import React, { FC, Fragment } from 'react'
 import styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
-import { List, ListItem } from '@material-ui/core'
 import { DiffTime } from '../utils/time'
-import ListSkeleton from './ListSkeleton'
 import IconShangjiantou1 from './iconfont/IconShangjiantou1'
 import IconXiajiantou1 from './iconfont/IconXiajiantou1'
 import IconPinglun from './iconfont/IconPinglun'
-import { useTypedSelector } from '../store/reducer'
 import IconChakan from './iconfont/IconChakan'
+import ListBase from './ListBase'
+import { useTypedSelector } from '../store/reducer'
 
 interface Props {
     Request: ({page}: { page: number }) => any,
     Highlight?: string,
-    isShow?: boolean
-}
-
-interface useProps extends Props {
-    mapHighlight?: (reg: any, data: any[]) => any[]
+    upOnRefresh?: boolean
 }
 
 
-const useList = ({Request, Highlight, mapHighlight, isShow}: useProps) => {
-    const ListRef: any = useRef(null)
-    const [list, setList] = useState<any[]>([])
-    const [isLoad, setIsLoad] = useState<boolean>(true)
-    const [page, setPage] = useState<number>(1)
-    const PageState = useRef(false)
-    const show = useRef(true)
+const QuestionList: FC<Props> = ({Request, Highlight, upOnRefresh = true}) => {
 
-    useEffect(() => {
-        show.current = isShow!
-    }, [isShow])
-
-    useEffect(() => {
-        setIsLoad(true)
-        setList([])
-        setPage(1)
-        PageState.current = false
-    }, [Request])
-
-    useEffect(() => {
-        ;(async () => {
-            let res: any = await Request({page})
-            if (Highlight) {
-                // eslint-disable-next-line
-                const reg = eval(`/` + Highlight + '/')
-                res.data = mapHighlight!(reg, res.data)
-
-            }
-            page === 1 ? setList([...res.data]) : setList(prevState => ([...prevState, ...res.data]))
-            if (res.data.length < 8) {
-                setIsLoad(false)
-                PageState.current = true
-            } else {
-                PageState.current = false
-            }
-        })()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page, Request])
-
-    useEffect(() => {
-        window.addEventListener('scroll', _onScroll)
-        return () => window.removeEventListener('scroll', _onScroll)
-    }, [])
-
-    const _onScroll = () => {
-        if (!show.current) return
-        if (PageState.current) return
-        let windowHeight = document.documentElement.clientHeight
-        let diffY = ListRef.current.getBoundingClientRect().bottom
-        if (diffY <= windowHeight - 80) {
-            PageState.current = true
-            setPage(prevState => prevState + 1)
-        }
-    }
-
-    return {
-        list,
-        isLoad,
-        ListRef,
-        page
-    }
-
-}
-
-const QuestionList: FC<Props> = ({Request, Highlight, isShow = true}) => {
-    const history = useHistory()
     const state = useTypedSelector(state => state.User)
-    const {list, isLoad, ListRef, page} = useList({
-        Request,
-        Highlight,
-        isShow,
-        mapHighlight: (reg, data) => (
-            data.map((value: any) => ({
-                ...value,
-                title: value.title.replace(reg, `<span class='red'>${Highlight}</span>`),
-                content: value.content.replace(reg, `<span class='red'>${Highlight}</span>`),
-                reply_id: value.reply_id.map((item: any) => ({
-                    ...item,
-                    reply: {
-                        ...item.reply,
-                        content: item.reply.content.replace(reg, `<span class='red'>${Highlight}</span>`)
-                    }
-                }))
-            }))
-        )
-    })
 
     const DefaultContent = ({value}: { value: any }) => (
         <Fragment>
@@ -197,42 +108,45 @@ const QuestionList: FC<Props> = ({Request, Highlight, isShow = true}) => {
         </Fragment>
     )
 
-    const ListItemLink = ({value}: { value: any }) => (
-        <ListItem
-            button
-            component='section'
-            className='item'
-            onClick={() => setTimeout(() => history.push('/question/' + value._id), 500)}
-        >
-            <h3 dangerouslySetInnerHTML={{__html: value.title}} />
-            {
-                !value.reply_count ? <DefaultContent value={value} /> : (
-                    state.isLogin ? <ButtonContent value={value} /> : <AnswerContent value={value} />
-                )
-            }
-        </ListItem>
-    )
+    const ListLinkItem = ({value}: { value: any }) => {
+        return (
+            <Fragment>
+                <h3 dangerouslySetInnerHTML={{__html: value.title}} />
+                {
+                    !value.reply_count ? <DefaultContent value={value} /> : (
+                        state.isLogin ? <ButtonContent value={value} /> : <AnswerContent value={value} />
+                    )
+                }
+            </Fragment>
+        )
+    }
 
     return (
         <Wrapper>
-            <List component="nav" aria-label="main mailbox folders" style={{padding: 0}} ref={ListRef}>
-                {list.map(value => <ListItemLink value={value} key={value._id} />)}
-            </List>
-            {isLoad && <ListSkeleton />}
-            {
-                !!list.length && list.length < page * 8 && !isLoad && (
-                    <Tips>好像没有更多了哦!</Tips>
-                )
-            }
-            {
-                !list.length && !isLoad && (
-                    <Tips>什么也没有找到呢</Tips>
-                )
-            }
+            <ListBase
+                RenderListItem={({value}) => <ListLinkItem value={value} />}
+                mapHighlight={(reg, data) => (
+                    data.map((value: any) => ({
+                        ...value,
+                        title: value.title.replace(reg, `<span class='red'>${Highlight}</span>`),
+                        content: value.content.replace(reg, `<span class='red'>${Highlight}</span>`),
+                        reply_id: value.reply_id.map((item: any) => ({
+                            ...item,
+                            reply: {
+                                ...item.reply,
+                                content: item.reply.content.replace(reg, `<span class='red'>${Highlight}</span>`)
+                            }
+                        }))
+                    }))
+                )}
+                upOnRefresh={upOnRefresh}
+                Request={Request}
+                LinkTo={value => `/question/${value._id}`}
+                Highlight={Highlight}
+            />
         </Wrapper>
     )
 }
-
 
 const Wrapper = styled('div')`
 width: 100%;
@@ -297,13 +211,6 @@ span.topic {
   margin-right: 3px;
 }
 `
-const Tips = styled('div')`
-font-size: 15px;
-color: #888;
-text-align:center;
-margin: 30px;
-`
-
 const Button = styled('button')`
 outline: none;
 border: none;
@@ -345,7 +252,6 @@ svg {
 
 
 export default QuestionList
-export { useList }
 
 
 

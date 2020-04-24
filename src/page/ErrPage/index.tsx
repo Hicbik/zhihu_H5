@@ -12,7 +12,7 @@ const ErrPage: FC = () => {
             <PrimaryButton
                 fullWidth
                 disableElevation={false}
-                onClick={()=>setTimeout(()=>history.push('/'),500)}
+                onClick={()=>history.push('/')}
             >
                 回到首页
             </PrimaryButton>

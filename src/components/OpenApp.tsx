@@ -9,7 +9,7 @@ interface Props {
 const OpenApp: FC<Props> = ({text}) => {
     return (
         <Wrapper >
-            <PrimaryButton fullWidth disableElevation={false}>
+            <PrimaryButton fullWidth disableElevation={false} href={'a'}>
                 {text || '打开知乎 App，查看更多精彩讨论'}
             </PrimaryButton>
         </Wrapper>

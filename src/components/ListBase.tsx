@@ -1,38 +1,33 @@
-import React, { FC, useState, useEffect, Fragment, useRef } from 'react'
+import React, { FC, useState, useEffect, useRef, Fragment } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { List, ListItem } from '@material-ui/core'
-import { DiffTime } from '../utils/time'
 import ListSkeleton from './ListSkeleton'
-import IconShangjiantou1 from './iconfont/IconShangjiantou1'
-import IconXiajiantou1 from './iconfont/IconXiajiantou1'
-import IconPinglun from './iconfont/IconPinglun'
-import { useTypedSelector } from '../store/reducer'
-import IconChakan from './iconfont/IconChakan'
+
 
 interface Props {
     Request: ({page}: { page: number }) => any,
     Highlight?: string,
-    isShow?: boolean,
+    upOnRefresh?: boolean,
     mapHighlight?: (reg: any, data: any[]) => any[]
 }
 
 interface ListProps extends Props {
     RenderListItem: ({value}: { value: any }) => any,
-    LinkTo: string
+    LinkTo: (value: any) => string
 }
 
-const useList = ({Request, Highlight, mapHighlight, isShow}: Props) => {
+const useList = ({Request, Highlight, mapHighlight, upOnRefresh}: Props) => {
     const ListRef: any = useRef(null)
     const [list, setList] = useState<any[]>([])
     const [isLoad, setIsLoad] = useState<boolean>(true)
     const [page, setPage] = useState<number>(1)
     const PageState = useRef(false)
-    const show = useRef(true)
+    const isUpOnRefresh = useRef(true)
 
     useEffect(() => {
-        show.current = isShow!
-    }, [isShow])
+        isUpOnRefresh.current = upOnRefresh!
+    }, [upOnRefresh])
 
     useEffect(() => {
         setIsLoad(true)
@@ -48,7 +43,6 @@ const useList = ({Request, Highlight, mapHighlight, isShow}: Props) => {
                 // eslint-disable-next-line
                 const reg = eval(`/` + Highlight + '/')
                 res.data = mapHighlight!(reg, res.data)
-
             }
             page === 1 ? setList([...res.data]) : setList(prevState => ([...prevState, ...res.data]))
             if (res.data.length < 8) {
@@ -67,7 +61,7 @@ const useList = ({Request, Highlight, mapHighlight, isShow}: Props) => {
     }, [])
 
     const _onScroll = () => {
-        if (!show.current) return
+        if (!isUpOnRefresh.current) return
         if (PageState.current) return
         let windowHeight = document.documentElement.clientHeight
         let diffY = ListRef.current.getBoundingClientRect().bottom
@@ -86,10 +80,10 @@ const useList = ({Request, Highlight, mapHighlight, isShow}: Props) => {
 
 }
 
-const QuestionList: FC<ListProps> = ({
+const ListBase: FC<ListProps> = ({
     Request,
     Highlight,
-    isShow = true,
+    upOnRefresh,
     mapHighlight,
     RenderListItem,
     LinkTo
@@ -98,7 +92,7 @@ const QuestionList: FC<ListProps> = ({
     const {list, isLoad, ListRef, page} = useList({
         Request,
         Highlight,
-        isShow,
+        upOnRefresh,
         mapHighlight
     })
 
@@ -107,14 +101,14 @@ const QuestionList: FC<ListProps> = ({
             button
             component='section'
             className='item'
-            onClick={() => setTimeout(() => history.push(LinkTo), 500)}
+            onClick={() => setTimeout(() => history.push(LinkTo(value)), 500)}
         >
             {RenderListItem({value})}
         </ListItem>
     )
 
     return (
-        <Wrapper>
+        <Fragment>
             <List component="nav" aria-label="main mailbox folders" style={{padding: 0}} ref={ListRef}>
                 {list.map(value => <ListItemLink value={value} key={value._id} />)}
             </List>
@@ -129,41 +123,11 @@ const QuestionList: FC<ListProps> = ({
                     <Tips>什么也没有找到呢</Tips>
                 )
             }
-        </Wrapper>
+        </Fragment>
     )
 }
 
 
-const Wrapper = styled('div')`
-width: 100%;
-section.item {
-    padding: 15px 15px;
-    border-bottom: 12px solid #f6f6f6;
-    display:block;
-    color: #1a1a1a;
-    &:last-of-type {
-      border-bottom: none;
-    }
-    h3 {
-      font-size: 17px;
-      color: #1a1a1a;
-    }
-    section {
-      display:flex;
-      flex: 1;
-      padding-top: 11px;
-      img.small-img {
-        width: auto;
-        height: 74px;
-        border-radius: 5px;
-        margin-left: 15px;
-      }
-    }
-    span.red {
-      color: #f1403c;
-    }
-}
-`
 const Tips = styled('div')`
 font-size: 15px;
 color: #888;
@@ -171,9 +135,7 @@ text-align:center;
 margin: 30px;
 `
 
-
-export default QuestionList
-export { useList }
+export default ListBase
 
 
 

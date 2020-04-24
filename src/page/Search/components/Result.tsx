@@ -43,14 +43,13 @@ const Result: FC<Props> = ({value, count}) => {
                 tabBarUnderlineStyle={{display: 'none'}}
                 tabBarActiveTextColor='#1a1a1a'
                 tabBarInactiveTextColor='#999'
-                destroyInactiveTab
                 onChange={_onChangeTab}
             >
                 <TabView height={height}>
-                    <QuestionList Request={Request} Highlight={value} isShow={tabIndex === 0} />
+                    <QuestionList Request={Request} Highlight={value} upOnRefresh={tabIndex === 0} />
                 </TabView>
                 <TabView height={height}>
-                    <PeopleList Request={PeopleRequest} Highlight={value} isShow={tabIndex === 1} />
+                    <PeopleList Request={PeopleRequest} Highlight={value} upOnRefresh={tabIndex === 1} />
                 </TabView>
             </Tabs>
         </Wrapper>

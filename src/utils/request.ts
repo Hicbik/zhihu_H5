@@ -143,8 +143,12 @@ export class QuestionRequest extends Base {
         return axios.get(this.url + 'searchList', {params: {page, search}})
     }
 
-    static PeopleReply ({_id,page}: { _id: string,page:number }) {
-        return axios.get(this.url + 'PeopleReply', {params: {_id}})
+    static PeopleReply ({_id, page}: { _id: string, page: number }) {
+        return axios.get(this.url + 'PeopleReply', {params: {_id, page}})
+    }
+
+    static PeopleQuestion ({_id, page}: { _id: string, page: number }) {
+        return axios.get(this.url + 'PeopleQuestion', {params: {_id, page}})
     }
 }
 

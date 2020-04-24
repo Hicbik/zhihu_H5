@@ -9,7 +9,6 @@ interface Props extends ButtonProps {
     fullWidth?: boolean,
     disabled?: boolean,
     onClick?: () => any,
-    href?: string,
     style?: any,
     colorType?: string
 }
@@ -17,7 +16,6 @@ interface Props extends ButtonProps {
 
 const PrimaryButton: FC<Props> = ({
     loading,
-    href,
     children,
     disabled = false,
     onClick,
@@ -33,8 +31,7 @@ const PrimaryButton: FC<Props> = ({
             disableElevation={disableElevation}
             fullWidth={fullWidth}
             disabled={disabled }
-            onClick={onClick}
-            href={href}
+            onClick={()=>setTimeout(onClick,500)}
             style={style}
             colortype={colorType}
         >

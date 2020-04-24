@@ -54,7 +54,7 @@ const People: FC = () => {
                                 {
                                     isMy && (
                                         <PrimaryButton
-                                            onClick={() => setTimeout(() => history.push('/editPeople'), 500)}
+                                            onClick={() => history.push('/editPeople')}
                                             disableElevation={false}
                                         >
                                             编辑个人资料
@@ -66,12 +66,12 @@ const People: FC = () => {
                                         data.isLike ? (
                                             <PrimaryButton
                                                 colorType={'gray'}
-                                                onClick={() => setTimeout(() => _onLike('noLike'), 500)}
+                                                onClick={() => _onLike('noLike')}
                                                 disableElevation={false}
                                             >取消关注</PrimaryButton>
                                         ) : (
                                             <PrimaryButton
-                                                onClick={() => setTimeout(() => _onLike('like'), 500)}
+                                                onClick={() => _onLike('like')}
                                                 disableElevation={false}
                                             >关注ta!</PrimaryButton>
                                         )

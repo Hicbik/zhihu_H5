@@ -1,108 +1,87 @@
 import React, { FC, Fragment } from 'react'
 import styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
-import { List, ListItem } from '@material-ui/core'
-import ListSkeleton from './ListSkeleton'
 import IconShangjiantou1 from './iconfont/IconShangjiantou1'
 import IconXiajiantou1 from './iconfont/IconXiajiantou1'
 import IconPinglun from './iconfont/IconPinglun'
-import { useTypedSelector } from '../store/reducer'
-import IconChakan from './iconfont/IconChakan'
-import { useList } from './QuestionList'
+import ListBase from './ListBase'
 
 interface Props {
     Request: ({page}: { page: number }) => any,
-    isShow?: boolean,
+    upOnRefresh?: boolean,
     user: any
 }
 
-const ReplyList: FC<Props> = ({Request, isShow = true, user}) => {
-    const history = useHistory()
-    const {list, isLoad, ListRef, page} = useList({
-        Request,
-        isShow,
-    })
-
-
-    const ButtonContent = ({value}: { value: any }) => (
-        <Fragment>
-            <section>
-                <TextWrapper
-                    className={!!value.image_field.length ? 'des' : ''}
-                >
-                    {value.content}
-                </TextWrapper>
-                {
-                    !!value.image_field.length && (
-                        <img src={value.image_field[0]} className='small-img' alt='' />
-                    )
-                }
-            </section>
-            <Footer style={{display: 'flex'}}>
-                <Button>
-                    <IconShangjiantou1 color='#0084ff' />
-                    <span className='color-0084ff'>赞同</span>
-                    <span className='color-0084ff'>
+const ReplyList: FC<Props> = ({Request, upOnRefresh = true, user}) => {
+    const ButtonContent = ({value}: { value: any }) => {
+        return (
+            <Fragment>
+                <section>
+                    <TextWrapper
+                        className={!!value.image_field.length ? 'des' : ''}
+                    >
+                        {value.content}
+                    </TextWrapper>
+                    {
+                        !!value.image_field.length && (
+                            <img src={value.image_field[0]} className='small-img' alt='' />
+                        )
+                    }
+                </section>
+                <Footer style={{display: 'flex'}}>
+                    <Button>
+                        <IconShangjiantou1 color='#0084ff' />
+                        <span className='color-0084ff'>赞同</span>
+                        <span className='color-0084ff'>
                         {!!value.like_count && value.like_count}
                     </span>
-                </Button>
-                <Button>
-                    <IconXiajiantou1 color='#0084ff' />
-                </Button>
-                <BottomSpan>
-                    <IconPinglun color='#8590a6' size={18} />
-                    评论 {!!value.comment_count && value.comment_count}
-                </BottomSpan>
-            </Footer>
-        </Fragment>
-    )
-
-    const ListItemLink = ({value}: { value: any }) => (
-        <ListItem
-            button
-            component='section'
-            className='item'
-            onClick={() => setTimeout(() => history.push('/question/' + value.question_id._id + '/answer/' + value._id), 500)}
-        >
-            <h3 dangerouslySetInnerHTML={{__html: value.question_id.title}} />
-            <Avatar>
-                <img src={user.avatar} alt='' />
-                <div>
-                    <p>{user.nickname}</p>
-                    <p>{user.one_sentence_introduction}</p>
-                </div>
-            </Avatar>
-            {
-                !!value.like_count && (
-                    <p className='color-8590a6' style={{fontSize: 14, marginTop: 10}}>{value.like_count} 人赞同了该回答</p>
-                )
-            }
-            <ButtonContent value={value} />
-        </ListItem>
-    )
+                    </Button>
+                    <Button>
+                        <IconXiajiantou1 color='#0084ff' />
+                    </Button>
+                    <BottomSpan>
+                        <IconPinglun color='#8590a6' size={18} />
+                        评论 {!!value.comment_count && value.comment_count}
+                    </BottomSpan>
+                </Footer>
+            </Fragment>
+        )
+    }
+    const ListItemLink = ({value}: { value: any }) => {
+        return (
+            <Fragment>
+                <h3 dangerouslySetInnerHTML={{__html: value.question_id.title}} />
+                <Avatar>
+                    <img src={user.avatar} alt='' />
+                    <div>
+                        <p>{user.nickname}</p>
+                        <p>{user.one_sentence_introduction}</p>
+                    </div>
+                </Avatar>
+                {
+                    !!value.like_count && (
+                        <p className='color-8590a6' style={{fontSize: 14, marginTop: 10}}>{value.like_count} 人赞同了该回答</p>
+                    )
+                }
+                <ButtonContent value={value} />
+            </Fragment>
+        )
+    }
 
     return (
         <Wrapper>
-            <List component="nav" aria-label="main mailbox folders" style={{padding: 0}} ref={ListRef}>
-                {list.map(value => <ListItemLink value={value} key={value._id} />)}
-            </List>
-            {isLoad && <ListSkeleton />}
-            {
-                !!list.length && list.length < page * 8 && !isLoad && (
-                    <Tips>好像没有更多了哦!</Tips>
-                )
-            }
-            {
-                !list.length && !isLoad && (
-                    <Tips>什么也没有找到呢</Tips>
-                )
-            }
+            <ListBase
+                RenderListItem={({value}) => <ListItemLink value={value} />}
+                LinkTo={value => `/question/${value.question_id._id}/answer/${value._id}`}
+                Request={Request}
+                upOnRefresh={upOnRefresh}
+            />
         </Wrapper>
     )
 }
 
 const Wrapper = styled('div')`
 width: 100%;
+background-color: #fff;
 section.item {
     padding: 15px 15px;
     display:block;
@@ -163,12 +142,6 @@ span.topic {
   border-radius: 20px;
   margin-right: 3px;
 }
-`
-const Tips = styled('div')`
-font-size: 15px;
-color: #888;
-text-align:center;
-margin: 30px;
 `
 
 const Button = styled('button')`
