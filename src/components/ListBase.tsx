@@ -7,18 +7,19 @@ import ListSkeleton from './ListSkeleton'
 
 interface Props {
     Request: ({page}: { page: number }) => any,
-    Highlight?: string,
     upOnRefresh?: boolean,
-    mapHighlight?: (reg: any, data: any[]) => any[]
+    mapHighlight?: (data: any[]) => any[]
 }
 
 interface ListProps extends Props {
     RenderListItem: any,
     LinkTo: (value: any) => string,
-    user?:any
+    user?: any,
+    bgColor?: string,
+    minorLinkTo?: (value: any) => string
 }
 
-const useList = ({Request, Highlight, mapHighlight, upOnRefresh}: Props) => {
+const useList = ({Request, mapHighlight, upOnRefresh}: Props) => {
     const ListRef: any = useRef(null)
     const [list, setList] = useState<any[]>([])
     const [isLoad, setIsLoad] = useState<boolean>(true)
@@ -40,10 +41,8 @@ const useList = ({Request, Highlight, mapHighlight, upOnRefresh}: Props) => {
     useEffect(() => {
         ;(async () => {
             let res: any = await Request({page})
-            if (Highlight) {
-                // eslint-disable-next-line
-                const reg = eval(`/` + Highlight + '/')
-                res.data = mapHighlight!(reg, res.data)
+            if (mapHighlight) {
+                res.data = mapHighlight( res.data)
             }
             page === 1 ? setList([...res.data]) : setList(prevState => ([...prevState, ...res.data]))
             if (res.data.length < 8) {
@@ -83,17 +82,17 @@ const useList = ({Request, Highlight, mapHighlight, upOnRefresh}: Props) => {
 
 const ListBase: FC<ListProps> = ({
     Request,
-    Highlight,
     upOnRefresh,
     mapHighlight,
     RenderListItem,
     LinkTo,
-    user
+    user,
+    minorLinkTo,
+    bgColor = '#fff'
 }) => {
     const history = useHistory()
     const {list, isLoad, ListRef, page} = useList({
         Request,
-        Highlight,
         upOnRefresh,
         mapHighlight
     })
@@ -102,12 +101,13 @@ const ListBase: FC<ListProps> = ({
         <RenderListItem
             value={value}
             LinkTo={() => setTimeout(() => history.push(LinkTo(value)), 500)}
+            minorLinkTo={() => setTimeout(() => history.push(minorLinkTo!(value)), 500)}
             user={user}
         />
     )
 
     return (
-        <Wrapper>
+        <Wrapper bgColor={bgColor}>
             <List component="nav" aria-label="main mailbox folders" style={{padding: 0}} ref={ListRef}>
                 {list.map(value => <ListItemLink value={value} key={value._id} />)}
             </List>
@@ -128,7 +128,7 @@ const ListBase: FC<ListProps> = ({
 
 const Wrapper = styled('div')`
 width: 100%;
-background-color: #fff;
+background-color: ${(props: { bgColor: string }) => props.bgColor};
 
 .MuiListItem-root {
   display:block;

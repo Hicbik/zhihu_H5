@@ -17,7 +17,7 @@ const Home: FC = () => {
     return (
         <Wrapper style={{paddingTop: state.isLogin ? 60 : 108}}>
             <Header  isShowTab />
-            <QuestionList  Request={Request} />
+            <QuestionList  Request={Request} bgColor='#f6f6f6'/>
         </Wrapper>
     )
 }

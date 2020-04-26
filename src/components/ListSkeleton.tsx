@@ -16,6 +16,7 @@ height: 120px;
 padding: 15px;
 border-top: 12px solid #f6f6f6;
 border-bottom: 12px solid #f6f6f6;
+background-color: #fff;
 `
 
 export default ListSkeleton

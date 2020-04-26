@@ -1,17 +1,20 @@
-import React, {FC, useEffect, lazy, Suspense} from 'react'
-import {BrowserRouter, Switch} from 'react-router-dom'
-import {Provider} from 'react-redux'
-import {CircularProgress} from '@material-ui/core'
-import {UserRequest} from './utils/request'
+import React, { FC, useEffect, lazy, Suspense } from 'react'
+import { BrowserRouter, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { CircularProgress } from '@material-ui/core'
+import { UserRequest } from './utils/request'
 import Route from './components/Route'
 import Footer from './components/Footer'
 import store from './store'
-
+import { Notice } from './utils/io'
 
 const App: FC = () => {
 
     useEffect(() => {
-        (async () => await UserRequest.Token())()
+        (async () => {
+            await UserRequest.Token()
+            Notice()
+        })()
     }, [])
 
     return (
@@ -71,6 +74,12 @@ const App: FC = () => {
                         <Route
                             path='/newQuestion'
                             component={lazy(() => import('./page/NewQuestion'))}
+                            exact
+                        />
+                        <Route
+                            path='/Notice'
+                            component={lazy(() => import('./page/Notice'))}
+                            title='消息 - 知乎'
                             exact
                         />
                         <Route

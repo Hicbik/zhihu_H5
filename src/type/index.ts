@@ -13,5 +13,13 @@ export interface UserProps {
     fans_count?: number,
     like_count?: number,
     attention_count?: number,
-    attention?:string[]
+    attention?: string[]
+}
+
+export interface NoticeProps {
+    unread: number,
+    full: {
+        news: number
+    },
+    online_users:number
 }

@@ -5,6 +5,7 @@ padding-top: 53px;
 
 main {
   padding: 12px;
+  margin-bottom: 300px;
 }
 
 .avatar {

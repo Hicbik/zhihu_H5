@@ -1,21 +1,23 @@
-import React,{FC} from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
-import {IconButton} from '@material-ui/core'
-import IconClose from '../../../components/iconfont/IconClose'
+import { IconButton } from '@material-ui/core'
+import IconArrowLift from './iconfont/IconArrowLift'
 
 interface Props {
-    history:any,
-    onButton:()=>void
+    history: any,
+    rightButton?:any,
+    title:string
 }
 
-const Header:FC<Props> = ({history,onButton}) => {
+const HeaderBar: FC<Props> = ({history,rightButton,title}) => {
     return (
         <Wrapper>
-            <IconButton  onClick={()=>setTimeout(()=>history.goBack(),500)}>
-                <IconClose size={26}/>
+            <IconButton onClick={() => setTimeout(() => history.goBack(), 500)}>
+                <IconArrowLift size={26} />
             </IconButton>
-            <div>编辑个人资料</div>
-            <div onClick={onButton}>保存</div>
+            <div>{title}</div>
+            <div />
+            {rightButton}
         </Wrapper>
     )
 }
@@ -30,7 +32,7 @@ position: fixed;
 top: 0;
 left: 0;
 width: 100%;
-
+z-index: 66;
 div {
   color: #8590a6;
   font-size: 18px;
@@ -43,4 +45,4 @@ div:last-of-type {
 }
 `
 
-export default Header
+export default HeaderBar

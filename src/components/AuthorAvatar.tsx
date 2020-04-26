@@ -38,7 +38,7 @@ margin-top: 10px;
   
 
 img {
-  border-radius: 2px;
+  border-radius: 50%;
   width: 38px;
   height: 38px;
 }

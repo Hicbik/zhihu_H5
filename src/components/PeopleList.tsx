@@ -13,14 +13,15 @@ const PeopleList: FC<Props> = ({Request, Highlight, upOnRefresh = true}) => {
 
     return (
         <ListBase
-            Highlight={Highlight}
-            mapHighlight={(reg, data) => (
-                data.map((value: any) => ({
+            mapHighlight={data => {
+                // eslint-disable-next-line
+                const reg = eval(`/` + Highlight + '/')
+                return data.map((value: any) => ({
                     ...value,
                     nickname: value.nickname.replace(reg, `<span class='red'>${Highlight}</span>`),
                     one_sentence_introduction: value.one_sentence_introduction.replace(reg, `<span class='red'>${Highlight}</span>`),
                 }))
-            )}
+            }}
             RenderListItem={PeopleListItem}
             upOnRefresh={upOnRefresh}
             Request={Request}

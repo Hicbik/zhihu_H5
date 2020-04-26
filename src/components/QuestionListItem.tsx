@@ -95,7 +95,7 @@ const QuestionListItem: FC<Props> = ({value, LinkTo}) => {
                 </Button>
                 <BottomSpan>
                     <IconPinglun color='#8590a6' size={18} />
-                    评论 {!!value.reply_id[0].reply.comment_count && value.reply_id[0].reply.comment_count}
+                    {!!value.reply_id[0].reply.comment_count ? `评论 ${value.reply_id[0].reply.comment_count}` :'暂无评论'}
                 </BottomSpan>
                 <BottomSpan>
                     <IconChakan color='#8590a6' size={18} />
@@ -119,12 +119,14 @@ const QuestionListItem: FC<Props> = ({value, LinkTo}) => {
 }
 
 const Wrapper = styled(ListItem)`
+background-color: #fff;
 padding: 15px 15px;
-border-bottom: 12px solid #f6f6f6;
+margin-bottom: 12px;
+box-shadow: 0 1px 3px rgba(26,26,26,.1);
 display:block;
 color: #1a1a1a;
 &:last-of-type {
-  border-bottom: none;
+  margin-bottom: 0;
 }
 h3 {
   font-size: 17px;
@@ -189,9 +191,8 @@ display:flex;
 justify-content: center;
 align-items: center;
 font-size: 14px;
-font-weight: bold;
-padding: 0 10px;
-height: 32px;
+padding: 0 6px;
+height: 28px;
 margin-right: 8px;
 vertical-align: middle;
 &:last-of-type {
@@ -200,19 +201,12 @@ vertical-align: middle;
 span {
   margin-left: 5px;
 }
-&.now {
-  background-color: #0084ff;
-  span {
-    color: #fff;
-  }
-}
 `
 const BottomSpan = styled('div')`
 display:flex;
 align-items: center;
 color: #8590a6;
 font-size: 14px;
-font-weight: bold;
 margin-left: 10px;
 svg {
   margin-right: 3px;

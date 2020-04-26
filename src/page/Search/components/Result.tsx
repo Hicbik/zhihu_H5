@@ -44,6 +44,7 @@ const Result: FC<Props> = ({value, count}) => {
                 tabBarActiveTextColor='#1a1a1a'
                 tabBarInactiveTextColor='#999'
                 onChange={_onChangeTab}
+                swipeable={false}
             >
                 <TabView height={height}>
                     <QuestionList Request={Request} Highlight={value} upOnRefresh={tabIndex === 0} />

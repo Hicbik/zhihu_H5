@@ -39,6 +39,7 @@ const PeopleTab: FC<Props> = ({user}) => {
                 tabBarActiveTextColor='#1a1a1a'
                 tabBarInactiveTextColor='#999'
                 onChange={_onChangeTab}
+                swipeable={false}
             >
                 <TabView height={height}>
                     <DynamicList Request={DynamicRequest} user={user} upOnRefresh={tabIndex === 0} />

@@ -42,7 +42,7 @@ const ReplyListItem: FC<Props> = ({value, LinkTo, user,children}) => {
                     </Button>
                     <BottomSpan>
                         <IconPinglun color='#8590a6' size={18} />
-                        评论 {!!value.comment_count && value.comment_count}
+                        {!!value.comment_count ? `评论 ${value.comment_count}` :'暂无评论'}
                     </BottomSpan>
                 </Footer>
             </Fragment>
@@ -79,7 +79,7 @@ color: #1a1a1a;
   border-bottom: none;
 }
 h3 {
-  font-size: 20px;
+  font-size: 18px;
   color: #1a1a1a;
 }
 section {
@@ -142,9 +142,8 @@ display:flex;
 justify-content: center;
 align-items: center;
 font-size: 14px;
-font-weight: bold;
-padding: 0 10px;
-height: 32px;
+padding: 0 6px;
+height: 28px;
 margin-right: 8px;
 vertical-align: middle;
 &:last-of-type {
@@ -153,19 +152,12 @@ vertical-align: middle;
 span {
   margin-left: 5px;
 }
-&.now {
-  background-color: #0084ff;
-  span {
-    color: #fff;
-  }
-}
 `
 const BottomSpan = styled('div')`
 display:flex;
 align-items: center;
 color: #8590a6;
 font-size: 14px;
-font-weight: bold;
 margin-left: 10px;
 svg {
   margin-right: 3px;
@@ -176,7 +168,7 @@ display:flex;
 img {
   width: 38px;
   height: 38px;
-  border-radius: 2px;
+  border-radius: 50%;
   margin-right: 14px;
 }
 margin-top: 14px;

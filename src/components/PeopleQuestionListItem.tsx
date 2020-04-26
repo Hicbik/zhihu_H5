@@ -44,7 +44,7 @@ border-bottom: 1px solid #f6f6f6;
 .contain {
   h3 {
     color: #1a1a1a;
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 4px;
     display: -webkit-box;
     text-overflow: ellipsis;

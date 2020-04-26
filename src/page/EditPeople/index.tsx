@@ -1,13 +1,12 @@
-import React, {FC, useEffect, useRef, useState} from 'react'
-import {useHistory} from 'react-router-dom'
-import {useTypedSelector} from '../../store/reducer'
-import {IconButton, Radio, TextField} from '@material-ui/core'
-import {PhotoCamera} from '@material-ui/icons'
-import {Wrapper} from './style'
-import {UserRequest, QiniuUpload} from '../../utils/request'
-import Header from './components/Header'
-import {Toast} from 'antd-mobile'
-
+import React, { FC, useEffect, useRef, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { useTypedSelector } from '../../store/reducer'
+import { IconButton, Radio, TextField } from '@material-ui/core'
+import { PhotoCamera } from '@material-ui/icons'
+import { Wrapper } from './style'
+import { UserRequest, QiniuUpload } from '../../utils/request'
+import { Toast } from 'antd-mobile'
+import HeaderBar from '../../components/HeaderBar'
 
 const EditPeople: FC = () => {
 
@@ -86,7 +85,11 @@ const EditPeople: FC = () => {
 
     return (
         <Wrapper>
-            <Header history={history} onButton={_onButton} />
+            <HeaderBar
+                history={history}
+                rightButton={<div onClick={_onButton}>保存</div>}
+                title='编辑个人资料'
+            />
             {
                 user.load && (
                     <main>
