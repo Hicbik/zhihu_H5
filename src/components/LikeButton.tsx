@@ -1,9 +1,9 @@
-import React, {FC, useEffect, useState} from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import IconShangjiantou1 from './iconfont/IconShangjiantou1'
 import IconXiajiantou1 from './iconfont/IconXiajiantou1'
-import {QuestionRequest} from '../utils/request'
-import {useHistory} from 'react-router-dom'
+import { QuestionRequest } from '../utils/request'
+import { useHistory } from 'react-router-dom'
 
 interface Props {
     num?: number,

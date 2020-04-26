@@ -1,7 +1,7 @@
-import React, {FC} from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 import OpenApp from './OpenApp'
-import {List, ListItem} from '@material-ui/core'
+import { List, ListItem } from '@material-ui/core'
 
 
 const data = [

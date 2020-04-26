@@ -1,10 +1,10 @@
-import React, {FC, useState, useEffect, Fragment, useImperativeHandle} from 'react'
+import React, { FC, useState, useEffect, Fragment, useImperativeHandle } from 'react'
 import IconDianzan11Copy from './iconfont/IconDianzan11Copy'
 import IconHuifu from './iconfont/IconHuifu'
 import styled from 'styled-components'
-import {CommentRequest} from '../utils/request'
-import {DiffTime} from '../utils/time'
-import {CircularProgress} from '@material-ui/core'
+import { CommentRequest } from '../utils/request'
+import { DiffTime } from '../utils/time'
+import { CircularProgress } from '@material-ui/core'
 
 interface Props {
     onComment: ({name, Father_id, reply_user_id,}: { name: string, Father_id: string, reply_user_id: string }) => any,
@@ -109,7 +109,7 @@ const ReplyComment: FC<Props> = ({onComment, comment_count, reply_id, history, r
                             className='footer-span'
                             onClick={onReplyclick}
                         >
-                            <IconHuifu  size={20} /> 回复
+                            <IconHuifu size={20} /> 回复
                         </div>
                     </div>
                 </div>

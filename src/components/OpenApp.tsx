@@ -1,4 +1,4 @@
-import React, {FC} from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 import PrimaryButton from './PrimaryButton'
 
@@ -8,7 +8,7 @@ interface Props {
 
 const OpenApp: FC<Props> = ({text}) => {
     return (
-        <Wrapper >
+        <Wrapper>
             <PrimaryButton fullWidth disableElevation={false} href={'a'}>
                 {text || '打开知乎 App，查看更多精彩讨论'}
             </PrimaryButton>

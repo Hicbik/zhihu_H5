@@ -1,6 +1,6 @@
-import React, {FC} from 'react'
-import {Route as ReactRoute} from 'react-router-dom'
-import {RouteComponentProps} from 'react-router'
+import React, { FC } from 'react'
+import { Route as ReactRoute } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router'
 
 
 interface Props {

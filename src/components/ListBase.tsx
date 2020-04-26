@@ -42,7 +42,7 @@ const useList = ({Request, mapHighlight, upOnRefresh}: Props) => {
         ;(async () => {
             let res: any = await Request({page})
             if (mapHighlight) {
-                res.data = mapHighlight( res.data)
+                res.data = mapHighlight(res.data)
             }
             page === 1 ? setList([...res.data]) : setList(prevState => ([...prevState, ...res.data]))
             if (res.data.length < 8) {

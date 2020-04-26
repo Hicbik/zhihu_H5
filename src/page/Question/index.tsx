@@ -1,13 +1,13 @@
-import React, {FC, Fragment, useEffect, useMemo, useState} from 'react'
-import {useHistory, useParams} from 'react-router-dom'
-import {useTypedSelector} from '../../store/reducer'
-import {Toast} from 'antd-mobile'
-import {Wrapper} from './style'
+import React, { FC, Fragment, useEffect, useMemo, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
+import { useTypedSelector } from '../../store/reducer'
+import { Toast } from 'antd-mobile'
+import { Wrapper } from './style'
 import Header from '../../components/Header'
 import QuestionHeader from '../../components/QuestionHeader'
 import Reply from '../../components/Reply'
 import HotQuestionsList from '../../components/HotQuestionsList'
-import {QuestionRequest} from '../../utils/request'
+import { QuestionRequest } from '../../utils/request'
 import QuestionAd from '../../components/QuestionAd'
 import ReplyEdit from '../../components/ReplyEdit'
 import '../../static/css/quill.css'
@@ -23,7 +23,7 @@ interface data {
     user_id?: string,
     reply_id?: { user: string, reply: string }[],
     focus_problem?: string[],
-    err?:boolean
+    err?: boolean
 }
 
 const Question: FC = () => {
@@ -39,7 +39,7 @@ const Question: FC = () => {
         ;(async () => {
             const res: any = await QuestionRequest.findOne({_id})
             if (res.state === 'err') {
-                setData({err:true})
+                setData({err: true})
                 return
             }
             setData({...res.data})
@@ -149,13 +149,13 @@ const Question: FC = () => {
                             )
                         }
 
-                        <HotQuestionsList history={history}/>
+                        <HotQuestionsList history={history} />
                     </Fragment>
                 )
             }
             {
                 data.err && (
-                    <ErrPage text='找不到了...提出问题的人被解决了!?'/>
+                    <ErrPage text='找不到了...提出问题的人被解决了!?' />
                 )
             }
         </Wrapper>

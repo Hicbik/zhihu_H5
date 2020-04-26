@@ -1,8 +1,8 @@
-import React,{FC} from 'react'
+import React, { FC } from 'react'
 import Skeleton from '@material-ui/lab/Skeleton'
 import styled from 'styled-components'
 
-const ListSkeleton:FC = () => (
+const ListSkeleton: FC = () => (
     <Wrapper>
         <Skeleton />
         <Skeleton animation={false} />

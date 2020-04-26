@@ -1,8 +1,8 @@
-import React, {FC, useCallback, useEffect, useState} from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {Tabs} from 'antd-mobile'
+import { Tabs } from 'antd-mobile'
 import QuestionList from '../../../components/QuestionList'
-import {QuestionRequest, UserRequest} from '../../../utils/request'
+import { QuestionRequest, UserRequest } from '../../../utils/request'
 import PeopleList from '../../../components/PeopleList'
 
 

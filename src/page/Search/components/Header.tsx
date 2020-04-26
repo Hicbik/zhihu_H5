@@ -1,9 +1,9 @@
-import React, {FC, useState} from 'react'
+import React, { FC, useState } from 'react'
 import styled from 'styled-components'
 import Logo from '../../../components/Logo'
 import IconSousuo from '../../../components/iconfont/IconSousuo'
-import {Link} from 'react-router-dom'
-import {Wrapper, InputWrapper, Top} from '../../../components/Header'
+import { Link } from 'react-router-dom'
+import { Wrapper, InputWrapper, Top } from '../../../components/Header'
 
 
 interface Props {

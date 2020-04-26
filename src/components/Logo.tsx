@@ -1,5 +1,5 @@
-import React, {FC} from 'react'
-import {Link} from 'react-router-dom'
+import React, { FC } from 'react'
+import { Link } from 'react-router-dom'
 import IconZhihu from './iconfont/IconZhihu'
 
 const Logo: FC = () => {

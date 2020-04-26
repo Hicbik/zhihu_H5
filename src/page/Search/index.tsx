@@ -1,5 +1,5 @@
-import React, {FC, useState, Fragment, useEffect} from 'react'
-import {Wrapper} from './style'
+import React, { FC, useState, Fragment, useEffect } from 'react'
+import { Wrapper } from './style'
 import Header from './components/Header'
 import HotSearch from './components/HotSearch'
 import SearchHistory from './components/SearchHistory'
@@ -30,7 +30,7 @@ const Search: FC = () => {
                 show && (
                     <Fragment>
                         <HotSearch />
-                        <SearchHistory onTapHistory={_onTapHistory}/>
+                        <SearchHistory onTapHistory={_onTapHistory} />
                     </Fragment>
                 )
             }

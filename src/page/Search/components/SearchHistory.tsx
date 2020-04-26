@@ -1,6 +1,6 @@
-import React, {FC,useState} from 'react'
+import React, { FC, useState } from 'react'
 import styled from 'styled-components'
-import {Schedule} from '@material-ui/icons'
+import { Schedule } from '@material-ui/icons'
 import IconClose from '../../../components/iconfont/IconClose'
 
 interface Props {

@@ -1,5 +1,5 @@
-import React, {FC, useState} from 'react'
-import {Button} from 'antd-mobile'
+import React, { FC, useState } from 'react'
+import { Button } from 'antd-mobile'
 import styled from 'styled-components'
 import IconArrowDown from './iconfont/IconArrowDown'
 
@@ -21,7 +21,8 @@ const QuestionHeader: FC<Props> = ({title, content, content_html, _onWriteAnswer
         <Wrapper>
             <Title>{title}</Title>
             <Content className='ql-snow'>
-                <Problem className={show ? 'show ql-editor' : 'ql-editor'} dangerouslySetInnerHTML={{__html: content_html}} />
+                <Problem className={show ? 'show ql-editor' : 'ql-editor'}
+                         dangerouslySetInnerHTML={{__html: content_html}} />
                 {
                     !show && (
                         <button className='btn color-175199' onClick={() => setShow(true)}>

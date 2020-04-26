@@ -3,7 +3,7 @@ import { ListItem, Badge } from '@material-ui/core'
 import styled from 'styled-components'
 import ListBase from '../../../components/ListBase'
 import { UserRequest } from '../../../utils/request'
-import {DiffTime} from '../../../utils/time'
+import { DiffTime } from '../../../utils/time'
 
 const QuestionList: FC = () => {
 
@@ -14,7 +14,7 @@ const QuestionList: FC = () => {
     const ListLinkItem = ({value}: { value: any }) => {
         return (
             <ListItemWrapper button>
-                <Badge  color='secondary' variant='dot' component='div' className='avatar' invisible={value.see}>
+                <Badge color='secondary' variant='dot' component='div' className='avatar' invisible={value.see}>
                     <img src={value.res_user_id.avatar} alt="" />
                     <div className="content">
                         <p>{value.res_user_id.nickname} <span>{value.text}</span></p>

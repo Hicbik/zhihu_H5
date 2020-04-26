@@ -1,6 +1,6 @@
-import React, {FC} from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import IconArrowRight from '../../../components/iconfont/IconArrowRight'
 
 const HotSearch: FC = () => {
@@ -20,9 +20,9 @@ const HotSearch: FC = () => {
                     ))
                 }
             </Box>
-           <div className='all'>
-               <Link to='/qu' className='color-0084ff'>更多热搜内容 <IconArrowRight color='#0084ff'/></Link>
-           </div>
+            <div className='all'>
+                <Link to='/qu' className='color-0084ff'>更多热搜内容 <IconArrowRight color='#0084ff' /></Link>
+            </div>
         </Wrapper>
     )
 }
@@ -59,7 +59,7 @@ margin-bottom: 20px;
   font-size: 15px;
   width: 18px;
   height: 18px;
-  color: ${(props:{index:number})=>props.index > 2 ? '#bfbfbf' : '#ff942d'};
+  color: ${(props: { index: number }) => props.index > 2 ? '#bfbfbf' : '#ff942d'};
 }
 .content {
   flex: 1;
