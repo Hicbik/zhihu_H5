@@ -19,7 +19,10 @@ export interface UserProps {
 export interface NoticeProps {
     unread: number,
     full: {
-        news: number
+        news: number,
+        dynamic: number,
+        agree: number,
+        attention: number
     },
-    online_users:number
+    online_users: number
 }

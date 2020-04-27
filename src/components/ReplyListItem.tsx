@@ -72,9 +72,13 @@ const ReplyListItem: FC<Props> = ({value, LinkTo, user,children}) => {
 }
 
 const Wrapper = styled(ListItem)`
-padding: 15px 15px;
-display:block;
-color: #1a1a1a;
+&.MuiListItem-root {
+    padding: 15px 15px;
+    display:block;
+    color: #1a1a1a;
+    border-bottom: 1px solid #f6f6f6;
+
+}
 &:last-of-type {
   border-bottom: none;
 }

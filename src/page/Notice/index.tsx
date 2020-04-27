@@ -1,18 +1,28 @@
 import React, { FC, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Tabs, Tab } from '@material-ui/core'
+import { Tabs, Tab, Badge } from '@material-ui/core'
 import { Wrapper } from './style'
+import { useTypedSelector } from '../../store/reducer'
 import HeaderBar from '../../components/HeaderBar'
 import TabView from './components/TabView'
 import QuestionList from './components/QuestionList'
+import AgreeList from './components/agreeList'
+import AttentionList from './components/AttentionList'
 
 const Notice: FC = () => {
     const history = useHistory()
+    const state = useTypedSelector(state => state.Notice)
 
     const [value, setValue] = useState(1)
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue)
+    }
+
+    const TabLabel = ({badgeContent, text}: { badgeContent: number, text: string }) => {
+        return (
+            <Badge badgeContent={badgeContent} color='secondary' max={99}>{text}</Badge>
+        )
     }
 
     return (
@@ -25,18 +35,21 @@ const Notice: FC = () => {
                 textColor="primary"
                 centered
             >
-                <Tab label='动态' />
-                <Tab label='消息' />
-                <Tab label='赞同' />
-                <Tab label='关注' />
+                <Tab label={<TabLabel badgeContent={state.full.dynamic} text='动态' />} />
+                <Tab label={<TabLabel badgeContent={state.full.news} text='消息' />} />
+                <Tab label={<TabLabel badgeContent={state.full.agree} text='赞同' />} />
+                <Tab label={<TabLabel badgeContent={state.full.attention} text='关注' />} />
             </Tabs>
             <TabView show={value === 0}>动态</TabView>
             <TabView show={value === 1}>
                 <QuestionList />
             </TabView>
-            <TabView show={value === 2}>赞同</TabView>
-            <TabView show={value === 3}>关注</TabView>
-            <TabView show={value === 4}>评论</TabView>
+            <TabView show={value === 2}>
+                <AgreeList />
+            </TabView>
+            <TabView show={value === 3}>
+                <AttentionList />
+            </TabView>
         </Wrapper>
     )
 }

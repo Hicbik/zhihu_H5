@@ -3,7 +3,10 @@ import { NoticeProps } from '../../../type'
 const InitState = {
     unread: 0,
     full: {
-        news: 0
+        dynamic: 0,
+        news: 0,
+        agree: 0,
+        attention: 0
     },
     online_users: 0
 }

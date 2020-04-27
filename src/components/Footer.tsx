@@ -8,9 +8,9 @@ const Footer: FC = () => {
 
     return (
         <Wrapper>
-            <p>由Ts+React+Egg.js+MongoDB驱动</p>
+            <p>由Ts+React+Egg.js+MongoDB+Redis驱动</p>
             <p>迷茫是什么?迷茫就是大事干不了,小事不想干,能力配不上欲望,才华配不上梦想。</p>
-            <p>© 2020 知乎 内测版 v0.0.1</p>
+            <p>© 2020 知乎 v1.0</p>
             {!!online_users && <p>-- 当前在线用户 : {online_users === 1 ? '1 (没错就是你~)' : online_users} --</p>}
         </Wrapper>
     )

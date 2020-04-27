@@ -71,9 +71,8 @@ display:flex;
 justify-content: center;
 align-items: center;
 font-size: 14px;
-font-weight: bold;
-padding: 0 10px;
-height: 32px;
+padding: 0 6px;
+height: 28px;
 margin-right: 8px;
 vertical-align: middle;
 &:last-of-type {

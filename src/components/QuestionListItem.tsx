@@ -4,7 +4,6 @@ import { DiffTime } from '../utils/time'
 import IconShangjiantou1 from './iconfont/IconShangjiantou1'
 import IconXiajiantou1 from './iconfont/IconXiajiantou1'
 import IconPinglun from './iconfont/IconPinglun'
-import IconChakan from './iconfont/IconChakan'
 import { ListItem } from '@material-ui/core'
 import { useTypedSelector } from '../store/reducer'
 
@@ -98,7 +97,6 @@ const QuestionListItem: FC<Props> = ({value, LinkTo}) => {
                     {!!value.reply_id[0].reply.comment_count ? `评论 ${value.reply_id[0].reply.comment_count}` :'暂无评论'}
                 </BottomSpan>
                 <BottomSpan>
-                    <IconChakan color='#8590a6' size={18} />
                     游览 {value.view_count}
                 </BottomSpan>
             </Footer>
@@ -119,12 +117,14 @@ const QuestionListItem: FC<Props> = ({value, LinkTo}) => {
 }
 
 const Wrapper = styled(ListItem)`
-background-color: #fff;
-padding: 15px 15px;
-margin-bottom: 12px;
-box-shadow: 0 1px 3px rgba(26,26,26,.1);
-display:block;
-color: #1a1a1a;
+&.MuiListItem-root {
+    background-color: #fff;
+    padding: 15px 15px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(26,26,26,.1);
+    display:block;
+    color: #1a1a1a;
+}
 &:last-of-type {
   margin-bottom: 0;
 }
@@ -213,4 +213,4 @@ svg {
 }
 `
 
-export default QuestionListItem
+export default React.memo(QuestionListItem)

@@ -39,8 +39,10 @@ const PeopleQuestionListItem: FC<Props> = ({value, LinkTo, children }) => {
 }
 
 const Wrapper = styled(ListItem)`
-padding: 16px;
-border-bottom: 1px solid #f6f6f6;
+&.MuiListItem-root {
+    padding: 16px;
+    border-bottom: 1px solid #f6f6f6;
+}
 .contain {
   h3 {
     color: #1a1a1a;

@@ -7,10 +7,10 @@ import { NoticeIo } from '../../../utils/io'
 import AvatarBox from './AvatarBox'
 import ContentBox from './ContentBox'
 
-const QuestionList: FC = () => {
+const AgreeList: FC = () => {
 
     const Request = useCallback(({page}) => {
-        return UserRequest.getNotice({page, type: '消息'})
+        return UserRequest.getNotice({page, type: '赞同'})
     }, [])
 
     const ListLinkItem = ({value, LinkTo, minorLinkTo}: { value: any, LinkTo: any, minorLinkTo: any }) => {
@@ -25,7 +25,7 @@ const QuestionList: FC = () => {
                 <AvatarBox value={value} LinkTo={minorLinkTo} />
                 <ContentBox
                     LinkTo={LinkTo}
-                    content={value.text === '回答了你的问题' ? value.reply_id.content : value.res_comment_id.content}
+                    content={value.text === '赞同了你的回答' ? value.reply_id.content : value.comment_id.content}
                     title={value.question_id.title}
                 />
             </ListItemWrapper>
@@ -49,4 +49,5 @@ padding-top: 15px;
 padding-bottom: 15px;
 `
 
-export default QuestionList
+
+export default AgreeList

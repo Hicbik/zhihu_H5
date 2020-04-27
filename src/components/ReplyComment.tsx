@@ -17,8 +17,16 @@ interface Props {
     comment_count: number
 }
 
-const ReplyComment: FC<Props> = ({onComment, comment_count, reply_id, history, reply_user_id, user_id, question_user_id, cRef}) => {
-
+const ReplyComment: FC<Props> = ({
+    onComment,
+    comment_count,
+    reply_id,
+    history,
+    reply_user_id,
+    user_id,
+    question_user_id,
+    cRef
+}) => {
 
     const [data, setData] = useState<any[]>([])
 

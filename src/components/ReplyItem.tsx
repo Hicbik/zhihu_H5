@@ -32,7 +32,7 @@ const ReplyItem: FC<Props> = ({value, user_id, question_user_id}) => {
         text: `评论给 ${value.user_id.nickname} (作者)`,
         Father_id: '',
         type: 'father',
-        reply_user_id: ''
+        reply_user_id: value.user_id._id
     })
     const input: any = useRef(null)
     const ReplyItem = useRef()
@@ -52,7 +52,7 @@ const ReplyItem: FC<Props> = ({value, user_id, question_user_id}) => {
             text: `评论给 ${value.user_id.nickname} (作者)`,
             Father_id: '',
             type: 'father',
-            reply_user_id: ''
+            reply_user_id: value.user_id._id
         })
         input.current.focus()
     }
@@ -203,7 +203,6 @@ display:flex;
 align-items: center;
 color: #8590a6;
 font-size: 14px;
-font-weight: bold;
 margin-left: 8px;
 svg {
   margin-right: 3px;

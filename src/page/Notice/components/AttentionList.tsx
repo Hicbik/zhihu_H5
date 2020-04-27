@@ -5,15 +5,14 @@ import ListBase from '../../../components/ListBase'
 import { UserRequest } from '../../../utils/request'
 import { NoticeIo } from '../../../utils/io'
 import AvatarBox from './AvatarBox'
-import ContentBox from './ContentBox'
 
-const QuestionList: FC = () => {
+const AttentionList: FC = () => {
 
     const Request = useCallback(({page}) => {
-        return UserRequest.getNotice({page, type: '消息'})
+        return UserRequest.getNotice({page, type: '关注'})
     }, [])
 
-    const ListLinkItem = ({value, LinkTo, minorLinkTo}: { value: any, LinkTo: any, minorLinkTo: any }) => {
+    const ListLinkItem = ({value, LinkTo}: { value: any, LinkTo: any, minorLinkTo: any }) => {
 
         const _onButton = () => {
             if (value.see) return
@@ -22,12 +21,7 @@ const QuestionList: FC = () => {
 
         return (
             <ListItemWrapper button onClick={_onButton}>
-                <AvatarBox value={value} LinkTo={minorLinkTo} />
-                <ContentBox
-                    LinkTo={LinkTo}
-                    content={value.text === '回答了你的问题' ? value.reply_id.content : value.res_comment_id.content}
-                    title={value.question_id.title}
-                />
+                <AvatarBox LinkTo={LinkTo} value={value} />
             </ListItemWrapper>
         )
     }
@@ -36,8 +30,7 @@ const QuestionList: FC = () => {
         <ListBase
             RenderListItem={ListLinkItem}
             Request={Request}
-            LinkTo={value => `/question/${value.question_id._id}/answer/${value.reply_id._id}`}
-            minorLinkTo={value => `/people/${value.res_user_id._id}`}
+            LinkTo={value => `/people/${value.res_user_id._id}`}
         />
     )
 }
@@ -47,6 +40,26 @@ display:block;
 border-bottom: 1px solid #f6f6f6;
 padding-top: 15px;
 padding-bottom: 15px;
+div.comment {
+  p {
+    color: #646464;
+    font-size: 14px;
+    -webkit-line-clamp:2;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow:hidden;
+    margin-bottom: 5px;
+  }
+  .question-title {
+    font-size: 15px;
+    background-color: #f6f6f6;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #646464;
+  }
+}
 `
 
-export default QuestionList
+
+export default AttentionList

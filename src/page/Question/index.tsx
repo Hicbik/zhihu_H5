@@ -43,7 +43,7 @@ const Question: FC = () => {
                 return
             }
             setData({...res.data})
-            document.title = `${res.data.title} -知乎`
+            document.title = `${res.data.title} - 知乎`
         })()
     }, [_id])
 
