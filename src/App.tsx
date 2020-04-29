@@ -1,13 +1,11 @@
 import React, { FC, useEffect, lazy, Suspense } from 'react'
 import { BrowserRouter, Switch } from 'react-router-dom'
+import { useTypedSelector } from './store/reducer'
+import { NoticeIo } from './utils/io'
 import { UserRequest } from './utils/request'
 import Route from './components/Route'
 import Footer from './components/Footer'
-import { NoticeIo } from './utils/io'
 import Loading from './components/Loading'
-import { useTypedSelector } from './store/reducer'
-
-
 
 
 const App: FC = () => {
@@ -21,9 +19,8 @@ const App: FC = () => {
     }, [])
 
     useEffect(() => {
-        if (isLogin) {
-            NoticeIo.init()
-        }
+        if (isLogin) NoticeIo.init()
+        if (NoticeIo.socket && !isLogin) NoticeIo.close()
     }, [isLogin])
 
     return (
@@ -44,7 +41,8 @@ const App: FC = () => {
                     />
                     <Route
                         path='/downApp'
-                        render={() => <div>downapp</div>}
+                        component={lazy(() => import('./components/HeaderDrawer'))}
+                        title='正在开发中 敬请期待!'
                         exact
                     />
                     <Route
@@ -76,6 +74,18 @@ const App: FC = () => {
                         path='/Notice'
                         component={lazy(() => import('./page/Notice'))}
                         title='消息中心 - 知乎'
+                        exact
+                    />
+                    <Route
+                        path='/Chat'
+                        component={lazy(() => import('./page/Chat'))}
+                        title='私信 - 知乎'
+                        exact
+                    />
+                    <Route
+                        path='/ChatDeal/:_id'
+                        component={lazy(() => import('./page/ChatDeal'))}
+                        title='私信 - 知乎'
                         exact
                     />
                     <Route

@@ -9,6 +9,11 @@ interface Props {
 
 const ErrPage: FC<Props> = ({text}) => {
     const history = useHistory()
+
+    const LinkTo = () => {
+        history.push('/')
+    }
+
     return (
         <Wrapper>
             <img src="https://zhstatic.zhihu.com/assets/error/liukanshan_wire.svg" alt="" />
@@ -16,7 +21,7 @@ const ErrPage: FC<Props> = ({text}) => {
             <PrimaryButton
                 fullWidth
                 disableElevation={false}
-                onClick={() => history.push('/')}
+                onClick={LinkTo}
             >
                 回到首页
             </PrimaryButton>

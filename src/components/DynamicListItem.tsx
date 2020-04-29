@@ -12,7 +12,7 @@ interface Props {
     user: any
 }
 
-const DynamicListItem: FC<Props> = ({value, LinkTo, user}) => {
+const DynamicListItem: FC<Props> = ({value, LinkTo}) => {
 
     const Tips = () => {
         return (
@@ -36,7 +36,6 @@ const DynamicListItem: FC<Props> = ({value, LinkTo, user}) => {
             <ReplyListItem
                 value={value.reply_id}
                 LinkTo={LinkTo}
-                user={user}
             >
                 <Tips />
             </ReplyListItem>
@@ -45,7 +44,7 @@ const DynamicListItem: FC<Props> = ({value, LinkTo, user}) => {
 
     const LikeReply = () => {
         return (
-            <ReplyListItem value={value.reply_id} LinkTo={LinkTo} user={value.reply_id.user_id}>
+            <ReplyListItem value={value.reply_id} LinkTo={LinkTo}>
                 <Tips />
             </ReplyListItem>
         )
@@ -86,4 +85,4 @@ color:#8590a6;
 margin-bottom: 3px;
 `
 
-export default DynamicListItem
+export default React.memo(DynamicListItem)

@@ -14,7 +14,6 @@ interface Props {
 interface ListProps extends Props {
     RenderListItem: any,
     LinkTo: (value: any) => string,
-    user?: any,
     bgColor?: string,
     minorLinkTo?: (value: any) => string
 }
@@ -86,7 +85,6 @@ const ListBase: FC<ListProps> = ({
     mapHighlight,
     RenderListItem,
     LinkTo,
-    user,
     minorLinkTo,
     bgColor = '#fff'
 }) => {
@@ -97,21 +95,28 @@ const ListBase: FC<ListProps> = ({
         mapHighlight
     })
 
+    const handleLinkTo = (value:any) => () => {
+        setTimeout(() => history.push(LinkTo(value)), 500)
+    }
+
+    const handleMinorLinkTo = (value:any) => () => {
+        setTimeout(() => history.push(minorLinkTo!(value)),500)
+    }
+
     const ListItemLink = ({value}: { value: any }) => (
         <RenderListItem
             value={value}
-            LinkTo={() => setTimeout(() => history.push(LinkTo(value)), 500)}
-            minorLinkTo={() => setTimeout(() => history.push(minorLinkTo!(value)), 500)}
-            user={user}
+            LinkTo={handleLinkTo(value)}
+            minorLinkTo={handleMinorLinkTo(value)}
         />
     )
 
     return (
         <Wrapper bgColor={bgColor}>
-            <List component="nav" aria-label="main mailbox folders" style={{padding: 0}} ref={ListRef}>
+            <List component="nav"  style={{padding: 0}} ref={ListRef}>
                 {list.map(value => <ListItemLink value={value} key={value._id} />)}
             </List>
-            {isLoad && <ListSkeleton />}
+            {isLoad && <ListSkeleton bgColor={bgColor} />}
             {
                 !!list.length && list.length < page * 8 && !isLoad && (
                     <Tips>好像没有更多了哦!</Tips>
@@ -142,7 +147,7 @@ text-align:center;
 margin: 30px;
 `
 
-export default ListBase
+export default React.memo(ListBase)
 
 
 

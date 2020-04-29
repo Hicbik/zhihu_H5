@@ -27,7 +27,7 @@ const Header: FC<Props> = ({value, setValue, setShow, setCount}) => {
     }
 
     return (
-        <Wrapper style={{zIndex: 12}}>
+        <Wrapper>
             <Top className='show'>
                 <Logo />
                 <InputBox>

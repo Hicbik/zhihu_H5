@@ -107,6 +107,10 @@ export class UserRequest extends Base {
         return axios.get(this.url + 'getNotice', {params: {type, page}})
     }
 
+    static getNoticeDynamic ({page}: { page: number }) {
+        return axios.get(this.url + 'getNoticeDynamic', {params: {page}})
+    }
+
 }
 
 export class QuestionRequest extends Base {
@@ -164,9 +168,9 @@ export class QuestionRequest extends Base {
 export class CommentRequest extends Base {
     static url = 'comment/'
 
-    static create ({history, question_id, reply_id, content, type, Father_id, reply_user_id}: { history: any, question_id: string, reply_id: string, content: string, type: string, Father_id: string, reply_user_id?: string }) {
+    static create ({history, question_id, reply_id, content, type, Father_id, reply_user_id, Child_id}: { history: any, question_id: string, reply_id: string, content: string, type: string, Father_id: string, reply_user_id?: string, Child_id?: string }) {
         return this.No_Login(history, () => (
-            axios.post(this.url + 'create', {question_id, reply_id, content, type, Father_id, reply_user_id})
+            axios.post(this.url + 'create', {question_id, reply_id, content, type, Father_id, reply_user_id, Child_id})
         ))
     }
 

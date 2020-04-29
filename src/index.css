@@ -43,6 +43,6 @@ html body {
     display: none;
 }
 
-html:not([data-scale]) .am-tabs-default-bar-top .am-tabs-default-bar-tab::after  {
-    content: none  !important;
+html:not([data-scale]) .am-tabs-default-bar-top .am-tabs-default-bar-tab::after {
+    content: none !important;
 }

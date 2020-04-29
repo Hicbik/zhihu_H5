@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+
 const Loading: FC = () => {
 
     useEffect(() => {

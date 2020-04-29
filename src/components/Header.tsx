@@ -1,28 +1,22 @@
 import React, { FC, useState, useEffect, Fragment } from 'react'
-import { Modal, Toast } from 'antd-mobile'
+import { Toast } from 'antd-mobile'
 import { Link, NavLink, useHistory, useRouteMatch } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { List, ListItem, IconButton, Badge } from '@material-ui/core'
+import { IconButton, Badge } from '@material-ui/core'
 import { useTypedSelector } from '../store/reducer'
 import IconCaidan from './iconfont/IconCaidan'
 import IconSousuo from './iconfont/IconSousuo'
 import IconClose from './iconfont/IconClose'
-import IconWode from './iconfont/IconWode'
-import IconTuichu from './iconfont/IconTuichu'
-import IconWenzhang from './iconfont/IconWenzhang'
-import IconXie1 from './iconfont/IconXie1'
-import IconMess from './iconfont/IconMess'
 import Logo from './Logo'
 import styled from 'styled-components'
-
+import HeaderDrawer from './HeaderDrawer'
 
 interface Props {
     isShowTab?: boolean,
-    zIndex?: number
 }
 
 
-const Header: FC<Props> = ({isShowTab, zIndex}) => {
+const Header: FC<Props> = ({isShowTab}) => {
     const state = useTypedSelector(state => state)
 
     const dispatch = useDispatch()
@@ -50,7 +44,7 @@ const Header: FC<Props> = ({isShowTab, zIndex}) => {
         setModal(!modal)
     }
 
-    const LinkTo = (value: string, full: string = '') => {
+    const LinkTo = (value: string, full: string = '') => () => {
         if (!path.search(value)) {
             setTimeout(() => setModal(!modal), 500)
             return
@@ -73,7 +67,11 @@ const Header: FC<Props> = ({isShowTab, zIndex}) => {
                             </IconButton>
                         ) : (
                             <IconButton onClick={_onSwitchModal} style={{marginRight: -12}}>
-                                <Badge badgeContent={state.Notice.unread} color='secondary' max={99}>
+                                <Badge
+                                    badgeContent={state.Notice.unread + state.Notice.chat}
+                                    color='secondary'
+                                    max={99}
+                                >
                                     <IconCaidan
                                         size={23}
                                         color='#8590a6'
@@ -100,52 +98,22 @@ const Header: FC<Props> = ({isShowTab, zIndex}) => {
     }
 
     const _onDropOut = () => {
-        localStorage.removeItem('token')
-        dispatch({
-            type: 'user/dropOut'
-        })
-        Toast.success('已退出登录!', 1.5)
+        setTimeout(() => {
+            localStorage.removeItem('token')
+            dispatch({
+                type: 'user/dropOut'
+            })
+            Toast.success('已退出登录!', 1.5)
+        }, 500)
     }
 
-    const DownModal = () => (
-        <Modal
-            popup
-            visible={modal}
-            onClose={() => setModal(false)}
-            animationType="slide-down"
-        >
-            <ModalSection>
-                <List component="nav" aria-label="secondary mailbox folders">
-                    <ListItem button onClick={() => LinkTo('/')}>
-                        <IconWenzhang color='rgb(133, 144, 166)' size={23} style={{marginRight: 10}} />
-                        首页
-                    </ListItem>
-                    <ListItem button onClick={() => LinkTo('/newQuestion')}>
-                        <IconXie1 color='rgb(133, 144, 166)' size={23} style={{marginRight: 10}} />
-                        提个问题
-                    </ListItem>
-                    <ListItem button onClick={() => LinkTo('/people/', state.User._id)}>
-                        <IconWode color='rgb(133, 144, 166)' size={23} style={{marginRight: 10}} />
-                        我的主页
-                    </ListItem>
-                    <ListItem button onClick={() => LinkTo('/Notice')}>
-                        <Badge badgeContent={state.Notice.unread} color='secondary' max={99}>
-                            <IconMess color='rgb(133, 144, 166)' size={23} style={{marginRight: 10}} />
-                        </Badge>
-                        我的消息
-                    </ListItem>
-                    <ListItem button onClick={() => setTimeout(_onDropOut, 500)}>
-                        <IconTuichu color='rgb(133, 144, 166)' size={23} style={{marginRight: 10}} />
-                        退出账号
-                    </ListItem>
-                </List>
-            </ModalSection>
-        </Modal>
-    )
+    const toggleDrawer = (state: boolean) => () => {
+        setModal(state)
+    }
 
     return (
         <Fragment>
-            <Wrapper style={{zIndex: zIndex || 10086}}>
+            <Wrapper>
                 <Top className={showHeader ? 'show' : ''}>
                     <Logo />
                     <InputWrapper>
@@ -175,9 +143,19 @@ const Header: FC<Props> = ({isShowTab, zIndex}) => {
                     )
                 }
             </Wrapper>
-
-
-            {state.User.isLogin && <DownModal />}
+            {
+                state.User.isLogin && (
+                    <HeaderDrawer
+                        state={modal}
+                        toggleDrawer={toggleDrawer}
+                        LinkTo={LinkTo}
+                        onDropOut={_onDropOut}
+                        user_id={state.User._id!}
+                        unread={state.Notice.unread}
+                        chat={state.Notice.chat}
+                    />
+                )
+            }
         </Fragment>
     )
 }
@@ -190,6 +168,7 @@ border-bottom: 1px solid rgba(26,26,26,.06);
 position: fixed;
 top: 0;
 left: 0;
+z-index: 6666;
 .login {
   margin-left: 12px;
 }
@@ -257,19 +236,7 @@ svg {
   transform: translateY(-50%);
 }
 `
-const ModalSection = styled('section')`
-margin-top: 52px;
-.MuiListItem-gutters {
-  height: 50px;
-  border-bottom: 1px solid #ebebeb;
-}
-.MuiBadge-badge {
-  transform:scale(1) translate(0, -50%);
-}
-.MuiBadge-anchorOriginTopRightRectangle.MuiBadge-invisible {
-  transform:scale(0) translate(0, -50%);
-}
-`
+
 const NavWrapper = styled('nav')`
 height: 50px;
 overflow-x: scroll;

@@ -25,8 +25,7 @@ const AgreeList: FC = () => {
                 <AvatarBox value={value} LinkTo={minorLinkTo} />
                 <ContentBox
                     LinkTo={LinkTo}
-                    content={value.text === '赞同了你的回答' ? value.reply_id.content : value.comment_id.content}
-                    title={value.question_id.title}
+                    title={value.text === '赞同了你的回答' ? value.reply_id.content : value.comment_id.content}
                 />
             </ListItemWrapper>
         )
@@ -43,10 +42,12 @@ const AgreeList: FC = () => {
 }
 
 const ListItemWrapper = styled(ListItem)`
-display:block;
-border-bottom: 1px solid #f6f6f6;
-padding-top: 15px;
-padding-bottom: 15px;
+&.MuiListItem-root {
+    display:block;
+    border-bottom: 1px solid #f6f6f6;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
 `
 
 

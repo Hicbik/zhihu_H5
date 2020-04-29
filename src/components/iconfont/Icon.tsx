@@ -2,6 +2,8 @@
 /* eslint-disable */
 
 import React, { CSSProperties, DOMAttributes, FunctionComponent } from 'react';
+import IconTongzhi from './IconTongzhi';
+import IconXiaoxi21 from './IconXiaoxi21';
 import IconChakan from './IconChakan';
 import IconZuozhe from './IconZuozhe';
 import IconHuifu from './IconHuifu';
@@ -28,7 +30,7 @@ import IconSousuo from './IconSousuo';
 import IconShuaxin from './IconShuaxin';
 import IconZhihu from './IconZhihu';
 
-export type IconNames = 'chakan' | 'zuozhe' | 'huifu' | 'mess' | 'wode' | 'xie1' | 'wenzhang' | 'xie' | 'hao' | 'nv' | 'nan' | 'dianzan11-copy' | 'pinglun' | 'shangjiantou1' | 'xiajiantou1' | 'tuichu' | 'arrow-right' | 'arrow-lift' | 'arrow-up' | 'close' | 'arrow-down' | 'caidan' | 'sousuo' | 'shuaxin' | 'zhihu';
+export type IconNames = 'tongzhi' | 'xiaoxi21' | 'chakan' | 'zuozhe' | 'huifu' | 'mess' | 'wode' | 'xie1' | 'wenzhang' | 'xie' | 'hao' | 'nv' | 'nan' | 'dianzan11-copy' | 'pinglun' | 'shangjiantou1' | 'xiajiantou1' | 'tuichu' | 'arrow-right' | 'arrow-lift' | 'arrow-up' | 'close' | 'arrow-down' | 'caidan' | 'sousuo' | 'shuaxin' | 'zhihu';
 
 interface Props extends DOMAttributes<SVGElement> {
   name: IconNames;
@@ -40,6 +42,10 @@ interface Props extends DOMAttributes<SVGElement> {
 
 export const Icon: FunctionComponent<Props> = ({ color, name, size, ...rest }) => {
   switch (name) {
+    case 'tongzhi':
+      return <IconTongzhi size={size} color={color} {...rest} />;
+    case 'xiaoxi21':
+      return <IconXiaoxi21 size={size} color={color} {...rest} />;
     case 'chakan':
       return <IconChakan size={size} color={color} {...rest} />;
     case 'zuozhe':

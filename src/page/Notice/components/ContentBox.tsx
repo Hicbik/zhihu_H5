@@ -2,14 +2,14 @@ import React, { FC } from 'react'
 import styled from 'styled-components'
 
 interface Props {
-    LinkTo:any,
-    content : any,
-    title:any
+    LinkTo: any,
+    content?: any,
+    title?: any
 }
 
-const ContentBox: FC<Props> = ({LinkTo,content,title}) => {
+const ContentBox: FC<Props> = ({LinkTo, content, title}) => {
     return (
-        <Wrapper  onClick={LinkTo}>
+        <Wrapper onClick={LinkTo}>
             <p>{content}</p>
             <div className='question-title'>{title}</div>
         </Wrapper>
@@ -36,4 +36,4 @@ p {
 }
 `
 
-export default ContentBox
+export default React.memo(ContentBox)

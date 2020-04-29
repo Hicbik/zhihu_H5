@@ -37,7 +37,9 @@ const PeopleListItem: FC<Props> = ({value, LinkTo ,style,children}) => {
 
 const Wrapper = styled(ListItem)`
 padding: 12px;
-border-bottom: 12px solid #f6f6f6;
+&.MuiListItem-root {
+  border-bottom: 12px solid #f6f6f6;
+}
 section {
   display:flex;
   align-items: center;
@@ -90,4 +92,4 @@ span {
 `
 
 
-export default PeopleListItem
+export default React.memo(PeopleListItem)

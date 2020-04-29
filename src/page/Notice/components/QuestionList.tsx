@@ -25,8 +25,8 @@ const QuestionList: FC = () => {
                 <AvatarBox value={value} LinkTo={minorLinkTo} />
                 <ContentBox
                     LinkTo={LinkTo}
-                    content={value.text === '回答了你的问题' ? value.reply_id.content : value.res_comment_id.content}
-                    title={value.question_id.title}
+                    content={value.text === '回答了你的问题' ? value.res_reply_id.content : value.res_comment_id.content}
+                    title={value.text === '回答了你的问题' ? value.question_id.title : (value.comment_id ? value.comment_id.content : value.reply_id.content)}
                 />
             </ListItemWrapper>
         )
@@ -43,10 +43,12 @@ const QuestionList: FC = () => {
 }
 
 const ListItemWrapper = styled(ListItem)`
-display:block;
-border-bottom: 1px solid #f6f6f6;
-padding-top: 15px;
-padding-bottom: 15px;
+&.MuiListItem-root {
+    display:block;
+    border-bottom: 1px solid #f6f6f6;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
 `
 
 export default QuestionList

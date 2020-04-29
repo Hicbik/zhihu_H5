@@ -1,10 +1,15 @@
 import React, { FC } from 'react'
+import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useTypedSelector } from '../store/reducer'
 
 const Footer: FC = () => {
-
+    const {pathname} = useLocation()
     const online_users = useTypedSelector(state => state.Notice.online_users)
+
+    if (/^\/ChatDeal\//.test(pathname)) {
+        return null
+    }
 
     return (
         <Wrapper>

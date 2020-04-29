@@ -74,4 +74,4 @@ const Wrapper = styled(ListItem)`
 `
 
 
-export default PeopleQuestionListItem
+export default React.memo(PeopleQuestionListItem)

@@ -5,15 +5,15 @@ import IconXiajiantou1 from './iconfont/IconXiajiantou1'
 import IconPinglun from './iconfont/IconPinglun'
 import { ListItem } from '@material-ui/core'
 
-
 interface Props {
     value: any,
     LinkTo: any,
-    user: any,
     children:any
 }
 
-const ReplyListItem: FC<Props> = ({value, LinkTo, user,children}) => {
+const ReplyListItem: FC<Props> = ({value, LinkTo,children}) => {
+
+
     const ButtonContent = () => {
         return (
             <Fragment>
@@ -54,10 +54,10 @@ const ReplyListItem: FC<Props> = ({value, LinkTo, user,children}) => {
             {children}
             <h3 dangerouslySetInnerHTML={{__html: value.question_id.title}} />
             <Avatar>
-                <img src={user.avatar} alt='' />
+                <img src={value.user_id.avatar} alt='' />
                 <div>
-                    <p>{user.nickname}</p>
-                    <p>{user.one_sentence_introduction}</p>
+                    <p>{value.user_id.nickname}</p>
+                    <p>{value.user_id.one_sentence_introduction}</p>
                 </div>
             </Avatar>
             {
@@ -188,4 +188,4 @@ p:last-of-type {
 }
 `
 
-export default ReplyListItem
+export default React.memo(ReplyListItem)

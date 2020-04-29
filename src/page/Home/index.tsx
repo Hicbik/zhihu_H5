@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useTypedSelector } from '../../store/reducer'
 import { Wrapper } from './style'
 import Header from '../../components/Header'
-import QuestionList from '../../components/QuestionList'
+import List from './components/List'
 import { QuestionRequest } from '../../utils/request'
 
 const Home: FC = () => {
@@ -17,7 +17,7 @@ const Home: FC = () => {
     return (
         <Wrapper style={{paddingTop: state.isLogin ? 60 : 108}}>
             <Header isShowTab />
-            <QuestionList Request={Request} bgColor='#f6f6f6' />
+            <List Request={Request} tab={tab} />
         </Wrapper>
     )
 }

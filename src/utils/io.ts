@@ -40,5 +40,9 @@ export class NoticeIo {
         const {User} = store.getState()
         this.socket.emit('HAVEREAD', {_id, userId: User._id})
     }
+
+    static close () {
+        this.socket.close()
+    }
 }
 

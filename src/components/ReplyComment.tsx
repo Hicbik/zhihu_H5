@@ -7,7 +7,7 @@ import { DiffTime } from '../utils/time'
 import { CircularProgress } from '@material-ui/core'
 
 interface Props {
-    onComment: ({name, Father_id, reply_user_id,}: { name: string, Father_id: string, reply_user_id: string }) => any,
+    onComment: ({name, Father_id, reply_user_id, Child_id}: { name: string, Father_id: string, reply_user_id: string, Child_id?: string }) => any,
     reply_id: string,
     reply_user_id: string,
     question_user_id: string,
@@ -147,6 +147,7 @@ const ReplyComment: FC<Props> = ({
                                         onReplyclick={() => onComment({
                                             name: item.user_id.nickname,
                                             Father_id: value._id,
+                                            Child_id: item._id,
                                             reply_user_id: item.user_id._id
                                         })}
                                         onLike={_onLike}
@@ -221,4 +222,4 @@ div.footer {
 `
 
 
-export default ReplyComment
+export default React.memo(ReplyComment)

@@ -25,6 +25,7 @@ const AvatarBox: FC<Props> = ({value, LinkTo}) => {
 
 const Wrapper = styled(Badge)`
 display:flex;  
+width: 100%;
 align-items: center;
 margin-bottom: 5px;
 .avatar-top {
@@ -48,4 +49,4 @@ img {
 }
 `
 
-export default AvatarBox
+export default React.memo(AvatarBox)

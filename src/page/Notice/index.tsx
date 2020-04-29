@@ -9,11 +9,12 @@ import QuestionList from './components/QuestionList'
 import AgreeList from './components/agreeList'
 import AttentionList from './components/AttentionList'
 
+
 const Notice: FC = () => {
     const history = useHistory()
     const state = useTypedSelector(state => state.Notice)
 
-    const [value, setValue] = useState(1)
+    const [value, setValue] = useState(0)
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue)
@@ -35,19 +36,17 @@ const Notice: FC = () => {
                 textColor="primary"
                 centered
             >
-                <Tab label={<TabLabel badgeContent={state.full.dynamic} text='动态' />} />
                 <Tab label={<TabLabel badgeContent={state.full.news} text='消息' />} />
                 <Tab label={<TabLabel badgeContent={state.full.agree} text='赞同' />} />
                 <Tab label={<TabLabel badgeContent={state.full.attention} text='关注' />} />
             </Tabs>
-            <TabView show={value === 0}>动态</TabView>
-            <TabView show={value === 1}>
+            <TabView show={value === 0}>
                 <QuestionList />
             </TabView>
-            <TabView show={value === 2}>
+            <TabView show={value === 1}>
                 <AgreeList />
             </TabView>
-            <TabView show={value === 3}>
+            <TabView show={value === 2}>
                 <AttentionList />
             </TabView>
         </Wrapper>

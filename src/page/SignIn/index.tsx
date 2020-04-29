@@ -31,16 +31,15 @@ const SignIn: FC = () => {
         }
     }
 
-
     const _onButton = async () => {
         setLoading(true)
         const {phone, password} = user
         let res: any
         if (type === '注册') res = await UserRequest.signUp({phone, password})
         if (type === '登录') res = await UserRequest.signIn({phone, password})
+        setLoading(false)
         if (res.state === 'err') {
             Toast.fail(res.errMsg, 2.5)
-            setLoading(false)
             return
         }
         dispatch({
@@ -48,7 +47,6 @@ const SignIn: FC = () => {
             value: {...res.data}
         })
         localStorage.setItem('token', res.token)
-        setLoading(false)
         Toast.success(type + '成功', 1.5, () => history.push('/'))
     }
 
@@ -78,6 +76,7 @@ const SignIn: FC = () => {
                     onChange={event => setUser({...user, phone: event.target.value})}
                     fullWidth={true}
                     placeholder='输入手机号'
+                    autoComplete={user.phone}
                 />
                 <FormControl fullWidth>
                     <InputLabel htmlFor="standard-adornment-password">密码</InputLabel>
@@ -94,6 +93,7 @@ const SignIn: FC = () => {
                                 </IconButton>
                             </InputAdornment>
                         }
+                        autoComplete={user.password}
                     />
                 </FormControl>
                 {
@@ -105,6 +105,7 @@ const SignIn: FC = () => {
                             fullWidth={true}
                             placeholder='确认密码'
                             type='password'
+                            autoComplete={user.verifyPassword}
                         />
                     )
                 }
@@ -115,9 +116,9 @@ const SignIn: FC = () => {
                 </p>
                 <PrimaryButton
                     fullWidth
-                    disableElevation
+                    disableElevation={false}
                     loading={loading}
-                    disabled={!isDisabled()}
+                    disabled={!isDisabled() || loading}
                     onClick={_onButton}
                 >
                     {type}

@@ -20,9 +20,18 @@ export interface NoticeProps {
     unread: number,
     full: {
         news: number,
-        dynamic: number,
         agree: number,
         attention: number
     },
-    online_users: number
+    online_users: number,
+    chat:number
+}
+
+export interface HomeListProps {
+    page: number,
+    data: any [],
+    isLoad: boolean,
+    pageYOffset:number,
+    PageState:boolean,
+    type:undefined | string
 }

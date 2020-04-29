@@ -42,10 +42,10 @@ const PeopleTab: FC<Props> = ({user}) => {
                 swipeable={false}
             >
                 <TabView height={height}>
-                    <DynamicList Request={DynamicRequest} user={user} upOnRefresh={tabIndex === 0} />
+                    <DynamicList Request={DynamicRequest}  upOnRefresh={tabIndex === 0} />
                 </TabView>
                 <TabView height={height}>
-                    <ReplyList Request={ReplyRequest} user={user} upOnRefresh={tabIndex === 1} />
+                    <ReplyList Request={ReplyRequest} upOnRefresh={tabIndex === 1} />
                 </TabView>
                 <TabView height={height}>
                     <PeopleQuestionList Request={QuestionListRequest} upOnRefresh={tabIndex === 2} />

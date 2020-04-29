@@ -36,28 +36,11 @@ const AttentionList: FC = () => {
 }
 
 const ListItemWrapper = styled(ListItem)`
-display:block;
-border-bottom: 1px solid #f6f6f6;
-padding-top: 15px;
-padding-bottom: 15px;
-div.comment {
-  p {
-    color: #646464;
-    font-size: 14px;
-    -webkit-line-clamp:2;
-    display: -webkit-box;
-    text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-    overflow:hidden;
-    margin-bottom: 5px;
-  }
-  .question-title {
-    font-size: 15px;
-    background-color: #f6f6f6;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: #646464;
-  }
+&.MuiListItem-root {
+    display:block;
+    border-bottom: 1px solid #f6f6f6;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 `
 

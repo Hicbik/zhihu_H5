@@ -69,4 +69,4 @@ vertical-align: middle;
 `
 
 
-export default Reply
+export default React.memo(Reply)

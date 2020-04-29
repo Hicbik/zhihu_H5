@@ -47,10 +47,19 @@ const Result: FC<Props> = ({value, count}) => {
                 swipeable={false}
             >
                 <TabView height={height}>
-                    <QuestionList Request={Request} Highlight={value} upOnRefresh={tabIndex === 0} />
+                    <QuestionList
+                        Request={Request}
+                        Highlight={value}
+                        upOnRefresh={tabIndex === 0}
+                        bgColor='#f6f6f6'
+                    />
                 </TabView>
                 <TabView height={height}>
-                    <PeopleList Request={PeopleRequest} Highlight={value} upOnRefresh={tabIndex === 1} />
+                    <PeopleList
+                        Request={PeopleRequest}
+                        Highlight={value}
+                        upOnRefresh={tabIndex === 1}
+                    />
                 </TabView>
             </Tabs>
         </Wrapper>

@@ -7,10 +7,9 @@ import DynamicListItem from './DynamicListItem'
 interface Props {
     Request: ({page}: { page: number }) => any,
     upOnRefresh?: boolean,
-    user: any
 }
 
-const DynamicList: FC<Props> = ({Request, upOnRefresh, user}) => {
+const DynamicList: FC<Props> = ({Request, upOnRefresh}) => {
 
     const LinkTo = (value: any) => {
         let to: string
@@ -37,7 +36,6 @@ const DynamicList: FC<Props> = ({Request, upOnRefresh, user}) => {
                 upOnRefresh={upOnRefresh}
                 RenderListItem={DynamicListItem}
                 LinkTo={value => LinkTo(value)}
-                user={user}
             />
         </Wrapper>
     )

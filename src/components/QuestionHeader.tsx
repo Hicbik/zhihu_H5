@@ -126,4 +126,4 @@ overflow:hidden !important;
 `
 
 
-export default QuestionHeader
+export default React.memo(QuestionHeader)
