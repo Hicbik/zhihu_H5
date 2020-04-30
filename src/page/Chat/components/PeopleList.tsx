@@ -1,12 +1,14 @@
 import React, { FC } from 'react'
-import { List, ListItem } from '@material-ui/core'
+import { List, ListItem, Badge } from '@material-ui/core'
 import styled from 'styled-components'
+import {DiffTime} from '../../../utils/time'
 
 interface Props {
-    history: any
+    history: any,
+    list: any[]
 }
 
-const PeopleList: FC<Props> = ({history}) => {
+const PeopleList: FC<Props> = ({history, list}) => {
 
     const LinkTo = (id: string) => () => {
         setTimeout(() => history.push('/ChatDeal/' + id), 500)
@@ -16,12 +18,22 @@ const PeopleList: FC<Props> = ({history}) => {
         <Wrapper>
             <List component='ul'>
                 {
-                    [1, 2, 3, 4, 5, 6, 7, 8, 9].map(value => (
-                        <ListItem button key={value} onClick={LinkTo('asd')}>
-                            <img src="https://pic4.zhimg.com/fd56780c37f0b316c56f27fe8b388532_100w.jpg" alt="" />
+                    list.map(value => (
+                        <ListItem button key={value.user_id} onClick={LinkTo(value.user_id)}>
+                            <img src={value.avatar} alt="" />
                             <section>
-                                <p>知乎 <span>14:05</span></p>
-                                <div className='Snippet'>亲爱的 研luo：从学生到职场社会人，身份的转变让许多人都表现出了极大的不适应~</div>
+                                <p>{value.nickname} <span>{DiffTime(value.time)}</span></p>
+                                <div className='Snippet'>
+                                    <div className='text'>
+                                        {value.messageList[value.messageList.length - 1].message}
+                                    </div>
+                                    <Badge
+                                        component='div'
+                                        badgeContent={value.newMsg}
+                                        color='secondary'
+                                        max={99}
+                                    />
+                                </div>
                             </section>
                         </ListItem>
                     ))
@@ -58,12 +70,30 @@ const Wrapper = styled('div')`
     }
     .Snippet {
       flex: 1;
+      display:flex;
       font-size: 14px;
       color: #999;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
+      .text {
+        flex: 1;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        padding-right: 35px;
+      }
     }
+  }
+}
+
+.MuiBadge-root {
+  margin-left:auto;
+  .MuiBadge-badge {
+    right: -5px;
+    top: 9px;
+    padding: 0 4px;
+    transform: scale(0.8) translate(-50%, -50%);
+  }
+  .MuiBadge-anchorOriginTopRightRectangle.MuiBadge-invisible {
+    transform: scale(0) translate(-50%, -50%);
   }
 }
 `

@@ -24,14 +24,26 @@ export interface NoticeProps {
         attention: number
     },
     online_users: number,
-    chat:number
+    chat: number,
+    chatList: {
+        user_id: string,
+        avatar: string,
+        nickname: string,
+        messageList: {
+            type: string,
+            message: string,
+            time: any
+        }[],
+        newMsg: number
+    }[],
+    win: null | string
 }
 
 export interface HomeListProps {
     page: number,
     data: any [],
     isLoad: boolean,
-    pageYOffset:number,
-    PageState:boolean,
-    type:undefined | string
+    pageYOffset: number,
+    PageState: boolean,
+    type: undefined | string
 }

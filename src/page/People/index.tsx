@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState, Fragment } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { Wrapper, UserWrapper, AvatarWrapper } from './style'
 import { useTypedSelector } from '../../store/reducer'
 import { UserRequest } from '../../utils/request'
@@ -13,10 +14,12 @@ import ErrPage from '../ErrPage'
 
 const People: FC = () => {
     const history = useHistory()
-    const state = useTypedSelector(state => state.User)
+    const dispatch = useDispatch()
+    const user = useTypedSelector(state => state.User)
+    const chatList = useTypedSelector(state => state.Notice.chatList)
     const {_id} = useParams()
     const [data, setData] = useState<any>({})
-    const isMy = state._id === data._id
+    const isMy = user._id === data._id
 
 
     useEffect(() => {
@@ -29,7 +32,7 @@ const People: FC = () => {
             }
             setData({
                 ...res.data,
-                isLike: state.isLogin && res.data.fans.includes(state._id)
+                isLike: user.isLogin && res.data.fans.includes(user._id)
             })
             document.title = res.data.nickname + ' - 知乎'
         })()
@@ -37,10 +40,21 @@ const People: FC = () => {
     }, [_id])
 
 
-    const _onLike = async (type: string) => {
+    const _onLike = (type: string) => async () => {
         const res: any = await UserRequest.attention({history, type, _id: _id!})
         if (!res) return
-        setData({...data, isLike: res.data.includes(state._id)})
+        setData({...data, isLike: res.data.includes(user._id)})
+    }
+
+    const _onGoToChat = (_id: string, avatar: string, nickname: string) => () => {
+        const index = chatList.findIndex(value => value.user_id === _id)
+        if (index === -1) {
+            dispatch({
+                type: 'notice/chat',
+                value: [...chatList, {user_id: _id, avatar, nickname, messageList: []}]
+            })
+        }
+        history.push('/ChatDeal/' + _id)
     }
 
     return (
@@ -72,15 +86,24 @@ const People: FC = () => {
                                         data.isLike ? (
                                             <PrimaryButton
                                                 colorType={'gray'}
-                                                onClick={() => _onLike('noLike')}
+                                                onClick={_onLike('noLike')}
                                                 disableElevation={false}
                                             >取消关注</PrimaryButton>
                                         ) : (
                                             <PrimaryButton
-                                                onClick={() => _onLike('like')}
+                                                onClick={_onLike('like')}
                                                 disableElevation={false}
                                             >关注ta!</PrimaryButton>
                                         )
+                                    )
+                                }
+                                {
+                                    !isMy && (
+                                        <PrimaryButton
+                                            disableElevation={false}
+                                            onClick={_onGoToChat(data._id, data.avatar, data.nickname)}
+                                            style={{marginTop: 10}}
+                                        >发私信</PrimaryButton>
                                     )
                                 }
                             </AvatarWrapper>
@@ -107,7 +130,7 @@ const People: FC = () => {
             }
             {
                 data.err && (
-                    <ErrPage text='这个人可能没了吧!?'/>
+                    <ErrPage text='这个人可能没了吧!?' />
                 )
             }
         </Wrapper>
