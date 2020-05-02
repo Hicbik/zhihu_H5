@@ -4,8 +4,7 @@ import { Tabs, Tab, Badge } from '@material-ui/core'
 import { Wrapper } from './style'
 import { useTypedSelector } from '../../store/reducer'
 import HeaderBar from '../../components/HeaderBar'
-import TabView from './components/TabView'
-import QuestionList from './components/QuestionList'
+import NoticeQuestionList from './components/NoticeQuestionList'
 import AgreeList from './components/agreeList'
 import AttentionList from './components/AttentionList'
 
@@ -40,15 +39,10 @@ const Notice: FC = () => {
                 <Tab label={<TabLabel badgeContent={state.full.agree} text='赞同' />} />
                 <Tab label={<TabLabel badgeContent={state.full.attention} text='关注' />} />
             </Tabs>
-            <TabView show={value === 0}>
-                <QuestionList />
-            </TabView>
-            <TabView show={value === 1}>
-                <AgreeList />
-            </TabView>
-            <TabView show={value === 2}>
-                <AttentionList />
-            </TabView>
+
+            {value === 0 && <NoticeQuestionList />}
+            {value === 1 && <AgreeList />}
+            {value === 2 && <AttentionList />}
         </Wrapper>
     )
 }

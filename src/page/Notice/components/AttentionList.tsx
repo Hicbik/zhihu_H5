@@ -12,7 +12,7 @@ const AttentionList: FC = () => {
         return UserRequest.getNotice({page, type: '关注'})
     }, [])
 
-    const ListLinkItem = ({value, LinkTo}: { value: any, LinkTo: any, minorLinkTo: any }) => {
+    const ListLinkItem = ({value, LinkTo}: { value: any, LinkTo: any}) => {
 
         const _onButton = () => {
             if (value.see) return
@@ -21,7 +21,7 @@ const AttentionList: FC = () => {
 
         return (
             <ListItemWrapper button onClick={_onButton}>
-                <AvatarBox LinkTo={LinkTo} value={value} />
+                <AvatarBox value={value} />
             </ListItemWrapper>
         )
     }
@@ -30,7 +30,7 @@ const AttentionList: FC = () => {
         <ListBase
             RenderListItem={ListLinkItem}
             Request={Request}
-            LinkTo={value => `/people/${value.res_user_id._id}`}
+            LinkTo={value=>''}
         />
     )
 }
@@ -42,6 +42,32 @@ const ListItemWrapper = styled(ListItem)`
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.avatar {
+    display:flex;  
+    width: 100%;
+    align-items: center;
+    margin-bottom: 5px;
+    .avatar-top {
+      display:flex;
+    }
+    img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .content {
+      font-size: 14px;
+      color: #808080;
+      span {
+        margin-left: 10px;
+      } 
+      p:last-of-type {
+        font-size: 13px;
+      }
+    }
+}
+
 `
 
 

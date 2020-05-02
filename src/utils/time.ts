@@ -1,7 +1,6 @@
 import dayjs from 'dayjs'
 
 const nowDate = dayjs()
-console.log(nowDate)
 
 export const DiffTime = (time: any) => {
     const ptime = dayjs(time)

@@ -7,13 +7,15 @@ import { NoticeIo } from '../../../utils/io'
 import AvatarBox from './AvatarBox'
 import ContentBox from './ContentBox'
 
-const QuestionList: FC = () => {
+
+
+const NoticeQuestionList: FC = () => {
 
     const Request = useCallback(({page}) => {
         return UserRequest.getNotice({page, type: '消息'})
     }, [])
 
-    const ListLinkItem = ({value, LinkTo, minorLinkTo}: { value: any, LinkTo: any, minorLinkTo: any }) => {
+    const ListLinkItem = ({value, LinkTo}: { value: any, LinkTo: any }) => {
 
         const _onButton = () => {
             if (value.see) return
@@ -22,7 +24,7 @@ const QuestionList: FC = () => {
 
         return (
             <ListItemWrapper button onClick={_onButton}>
-                <AvatarBox value={value} LinkTo={minorLinkTo} />
+                <AvatarBox value={value} />
                 <ContentBox
                     LinkTo={LinkTo}
                     content={value.text === '回答了你的问题' ? value.res_reply_id.content : value.res_comment_id.content}
@@ -32,12 +34,12 @@ const QuestionList: FC = () => {
         )
     }
 
+
     return (
         <ListBase
             RenderListItem={ListLinkItem}
             Request={Request}
             LinkTo={value => `/question/${value.question_id._id}/answer/${value.reply_id._id}`}
-            minorLinkTo={value => `/people/${value.res_user_id._id}`}
         />
     )
 }
@@ -49,6 +51,31 @@ const ListItemWrapper = styled(ListItem)`
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.avatar {
+    display:flex;  
+    width: 100%;
+    align-items: center;
+    margin-bottom: 5px;
+    .avatar-top {
+      display:flex;
+    }
+    img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .content {
+      font-size: 14px;
+      color: #808080;
+      span {
+        margin-left: 10px;
+      } 
+      p:last-of-type {
+        font-size: 13px;
+      }
+    }
+}
 `
 
-export default QuestionList
+export default NoticeQuestionList

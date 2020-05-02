@@ -5,7 +5,7 @@ import { Toast } from 'antd-mobile'
 
 
 
-axios.defaults.baseURL = 'http://192.168.31.218:7001/'
+axios.defaults.baseURL = 'http://sujie.ink:7001/'
 
 axios.interceptors.request.use(
     config => {
@@ -44,7 +44,7 @@ export class UserRequest extends Base {
             const token = localStorage.getItem('token')
             if (!token) return
             const res: any = await axios.post(this.url + 'Token')
-            if (res.state === 'err') return localStorage.removeItem('token')
+            if (res.state === 'err' || !res.data) return localStorage.removeItem('token')
             store.dispatch({
                 type: 'user/signIn',
                 value: {...res.data}
