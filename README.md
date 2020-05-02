@@ -3,7 +3,11 @@
 > ### 使用技术Ts+React+Egg.js+MongoDB+Redis
 
 ### 截图
-![我的主页](https://images.gitee.com/uploads/images/2020/0502/205659_b8a43a57_5664323.jpeg "Screenshot_2020-05-02-20-42-07-438_com.android.br.jpg" =400x300)
+![我的主页](https://images.gitee.com/uploads/images/2020/0502/205659_b8a43a57_5664323.jpeg "Screenshot_2020-05-02-20-42-07-438_com.android.br.jpg")
+
+
+<img src="https://images.gitee.com/uploads/images/2020/0502/205659_b8a43a57_5664323.jpeg" width="50%" height="50%" />
+
 ![修改个人资料](https://images.gitee.com/uploads/images/2020/0502/205719_535e3b18_5664323.jpeg "Screenshot_2020-05-02-20-42-17-527_com.android.br.jpg")
 ![提问题](https://images.gitee.com/uploads/images/2020/0502/205802_377ca7b3_5664323.jpeg "Screenshot_2020-05-02-20-42-40-953_com.android.br.jpg")
 ![详情](https://images.gitee.com/uploads/images/2020/0502/205819_76a6de9c_5664323.jpeg "Screenshot_2020-05-02-20-50-24-704_com.android.br.jpg")
