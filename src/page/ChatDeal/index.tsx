@@ -27,6 +27,7 @@ const ChatDeal: FC = () => {
             type: 'notice/delNewMsg',
             user_id: _id
         })
+
         return () => {
             dispatch({
                 type: 'notice/changeWin',
@@ -46,6 +47,7 @@ const ChatDeal: FC = () => {
             <ChatList
                 data={chatList[index]}
                 user={state}
+                history={history}
             />
             <Input people_id={_id!} user={state} />
         </Wrapper>

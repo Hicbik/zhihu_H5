@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { List, ListItem, Badge } from '@material-ui/core'
 import styled from 'styled-components'
-import {DiffTime} from '../../../utils/time'
+import { ChatTime } from '../../../utils/time'
 
 interface Props {
     history: any,
@@ -22,7 +22,9 @@ const PeopleList: FC<Props> = ({history, list}) => {
                         <ListItem button key={value.user_id} onClick={LinkTo(value.user_id)}>
                             <img src={value.avatar} alt="" />
                             <section>
-                                <p>{value.nickname} <span>{DiffTime(value.time)}</span></p>
+                                <p>{value.nickname}
+                                    <span>{ChatTime(value.messageList[value.messageList.length - 1].time)}</span>
+                                </p>
                                 <div className='Snippet'>
                                     <div className='text'>
                                         {value.messageList[value.messageList.length - 1].message}

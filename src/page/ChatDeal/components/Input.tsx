@@ -2,6 +2,7 @@ import React, { FC, useState, useRef, useEffect } from 'react'
 import { TextareaAutosize } from '@material-ui/core'
 import styled from 'styled-components'
 import { NoticeIo } from '../../../utils/io'
+import { platform } from '../../../utils/deavice'
 
 interface Props {
     people_id: string,
@@ -31,21 +32,16 @@ const Input: FC<Props> = ({people_id, user}) => {
     //如果遮挡输入框
     const _ScrollIntoViewIfNeeded = () => {
         setTimeout(() => {
-            let rect = input.current.getBoundingClientRect()
-            let isCheck = (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <=
-                (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <=
-                (window.innerWidth || document.documentElement.clientWidth)
-            )
-            if (!isCheck) input.current.style.marginBottom = 75 + 'px'
+            if (platform.isMiBrowser) input.current.style.marginBottom = 75 + 'px'
         }, 100)
     }
 
     const _onSend = () => {
-        NoticeIo.SendChat({send_user: user, receive_user_id: people_id, message: value})
+        NoticeIo.SendChat({
+            send_user: {_id: user._id, avatar: user.avatar, nickname: user.nickname},
+            receive_user_id: people_id,
+            message: value
+        })
         setValue('')
     }
 

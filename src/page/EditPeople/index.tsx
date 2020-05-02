@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import {useDispatch} from 'react-redux'
 import { useTypedSelector } from '../../store/reducer'
 import { IconButton, Radio, TextField } from '@material-ui/core'
 import { PhotoCamera } from '@material-ui/icons'
@@ -10,6 +11,7 @@ import HeaderBar from '../../components/HeaderBar'
 
 const EditPeople: FC = () => {
 
+    const dispatch = useDispatch()
     const history = useHistory()
     const state = useTypedSelector(state => state.User)
     const [user, setUser] = useState({
@@ -80,6 +82,10 @@ const EditPeople: FC = () => {
         Toast.hide()
         if (!res) return
         if (res.state === 'err') Toast.fail(res.errMsg, 1.5)
+        dispatch({
+            type:'user/signIn',
+            value:res.data
+        })
         Toast.success('保存成功!', 1.5)
     }
 

@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled('div')`
-background-color: ${(props: { err: boolean }) => props.err ? '#fff' : '#f6f6f6'};
 padding-top: 50px;
 `
 

@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState, Fragment } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { Toast } from 'antd-mobile'
 import { Wrapper, UserWrapper, AvatarWrapper } from './style'
 import { useTypedSelector } from '../../store/reducer'
 import { UserRequest } from '../../utils/request'
@@ -47,18 +48,19 @@ const People: FC = () => {
     }
 
     const _onGoToChat = (_id: string, avatar: string, nickname: string) => () => {
+        if (!user.isLogin) return Toast.offline('你还没有登录呢宝贝!', 1.5)
         const index = chatList.findIndex(value => value.user_id === _id)
         if (index === -1) {
             dispatch({
-                type: 'notice/chat',
-                value: [...chatList, {user_id: _id, avatar, nickname, messageList: []}]
+                type: 'notice/addChatPeople',
+                value: [...chatList, {user_id: _id, avatar, nickname, messageList: []}],
             })
         }
         history.push('/ChatDeal/' + _id)
     }
 
     return (
-        <Wrapper err={data.err}>
+        <Wrapper style={{backgroundColor: data.err ? '#fff' : '#f6f6f6'}}>
             <Header />
             {
                 data._id && (

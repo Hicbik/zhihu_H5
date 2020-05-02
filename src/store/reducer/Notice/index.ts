@@ -9,12 +9,31 @@ const InitState = {
     },
     online_users: 0,
     chat: 0,
-    chatList: [],
+    chatList: [{
+        user_id: '666',
+        chat_id: null,
+        nickname: '智慧女神',
+        avatar: 'https://p.ananas.chaoxing.com/star3/400_400c/c9ff4ff44d9355013346658e3c0ad714.png',
+        messageList: [{type: 'he', message: '欢迎来到知乎!', time: 0}],
+        newMsg: 0,
+    }],
     win: null
 }
 
 export default (state: NoticeProps = InitState, action: any): NoticeProps => {
     switch (action.type) {
+        case 'notice/6666': {
+            return {
+                ...state,
+                chatList: state.chatList.map(value => value.nickname === '智慧女神' ? {
+                    ...value,
+                    messageList: value.messageList.map((item, index) => index === 0 ? {
+                        ...item,
+                        time: action.time
+                    } : item)
+                } : value)
+            }
+        }
         case 'notice/change' :
             return {
                 ...state,
@@ -28,8 +47,13 @@ export default (state: NoticeProps = InitState, action: any): NoticeProps => {
         case 'notice/chat':
             return {
                 ...state,
-                chatList: action.value.sort((a: { newMsg: number }, b: { newMsg: number }) => a.newMsg > b.newMsg ? -1 : 1),
+                chatList: action.value.sort((a: any, b: any) => a.newMsg > b.newMsg ? -1 : 1),
                 chat: action.chat
+            }
+        case 'notice/addChatPeople':
+            return {
+                ...state,
+                chatList: action.value,
             }
         case 'notice/changeWin':
             return {
@@ -42,7 +66,10 @@ export default (state: NoticeProps = InitState, action: any): NoticeProps => {
                 chatList: state.chatList.map(value => ({
                     ...value,
                     newMsg: value.user_id === action.user_id ? 0 : value.newMsg
-                }))
+                })),
+                chat: state.chatList
+                    .filter(value => value.user_id !== action.user_id)
+                    .reduce((pre, next) => pre + next.newMsg, 0)
             }
         default:
             return state

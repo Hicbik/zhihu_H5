@@ -122,7 +122,7 @@ overflow:hidden !important;
 &.show {
   mask-image: none;
   max-height: initial;
-  overflow: scroll !important;
+  overflow: initial !important;
 `
 
 

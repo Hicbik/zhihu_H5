@@ -29,6 +29,7 @@ export interface NoticeProps {
         user_id: string,
         avatar: string,
         nickname: string,
+        chat_id: null | string,
         messageList: {
             type: string,
             message: string,

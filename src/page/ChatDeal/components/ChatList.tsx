@@ -1,27 +1,38 @@
-import React, { FC ,useEffect , useRef} from 'react'
+import React, { FC, useEffect, useRef, Fragment } from 'react'
+import { IconButton } from '@material-ui/core'
 import styled from 'styled-components'
+import { ChatTime, messageTime } from '../../../utils/time'
 
 interface Props {
     data: {
-        user_id:string,
-        nickname:string,
-        avatar:string
-        messageList:any[]
+        user_id: string,
+        nickname: string,
+        avatar: string
+        messageList: any[]
     },
-    user: any
+    user: any,
+    history: any
 }
 
-const ChatList: FC<Props> = ({data, user}) => {
+const ChatList: FC<Props> = ({data, user, history}) => {
     const dom = useRef<any>()
 
-    useEffect(()=>{
+    useEffect(() => {
         dom.current.scrollTop += 50
-    },[data.messageList.length])
+    }, [data.messageList.length])
+
+    const LinkToPeople = (_id: string) => () => {
+        setTimeout(() => history.push(`/people/${_id}`), 500)
+    }
 
     const HeMessage = ({message}: { message: string }) => {
         return (
             <HeMessageWrapper>
-                <img src={data.avatar} alt="" />
+                <div className='avatar'>
+                    <IconButton component='div' onClick={LinkToPeople(data.user_id)}>
+                        <img src={data.avatar} alt="" />
+                    </IconButton>
+                </div>
                 <section>{message}</section>
             </HeMessageWrapper>
         )
@@ -30,7 +41,11 @@ const ChatList: FC<Props> = ({data, user}) => {
     const MyMessage = ({message}: { message: string }) => {
         return (
             <MyMessageWrapper>
-                <img src={user.avatar} alt="" />
+                <div className='avatar'>
+                    <IconButton component='div'>
+                        <img src={user.avatar} alt="" />
+                    </IconButton>
+                </div>
                 <section>{message}</section>
             </MyMessageWrapper>
         )
@@ -40,10 +55,14 @@ const ChatList: FC<Props> = ({data, user}) => {
         <Wrapper ref={dom}>
             {
                 data.messageList.map((value, index) => (
-                    value.type === 'he' ?
-                        <HeMessage key={index} message={value.message} />
-                        :
-                        <MyMessage key={index} message={value.message} />
+                    <Fragment key={index}>
+                        {messageTime(data.messageList[index === 0 ? 0 : index - 1].time, value.time) && (
+                            <p className='time'>{ChatTime(value.time)}</p>
+                        )}
+                        {index === 0 && <p className='time'>{ChatTime(value.time)}</p>}
+                        {value.type === 'he' && <HeMessage message={value.message} />}
+                        {value.type === 'my' && <MyMessage message={value.message} />}
+                    </Fragment>
                 ))
             }
         </Wrapper>
@@ -54,11 +73,21 @@ const Wrapper = styled('div')`
 flex: 1;
 padding: 10px 10px 200px;
 overflow-y: auto;
+p.time {
+  color: #999;
+  text-align:center;
+  font-size: 14px;
+  margin: 10px 0;
+}
 `
 
 const HeMessageWrapper = styled('section')`
 display:flex;
 margin-bottom: 20px;
+.MuiIconButton-root {
+  padding: 0;
+  align-items: initial;
+}
 img {
   width: 40px;
   height: 40px;
@@ -101,4 +130,4 @@ section {
 }
 `
 
-export default ChatList
+export default React.memo(ChatList)
