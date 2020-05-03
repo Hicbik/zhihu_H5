@@ -57,7 +57,7 @@ const Wrapper = styled('div')`
 background-color: #fff;
 box-shadow: 0 1px 3px rgba(26,26,26,.1);
 margin-bottom: 10px;
-padding: 0 16px 8px;
+padding: 8px 16px 8px;
 `
 const Header = styled('h4')`
 font-weight: bold;

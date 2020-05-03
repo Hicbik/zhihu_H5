@@ -6,6 +6,7 @@ import { UserRequest } from './utils/request'
 import Route from './components/Route'
 import Footer from './components/Footer'
 import Loading from './components/Loading'
+import Tips from './components/Tips'
 
 
 const App: FC = () => {
@@ -97,6 +98,8 @@ const App: FC = () => {
                 </Switch>
             </Suspense>
             <Footer />
+            <Tips />
+
         </BrowserRouter>
     )
 }

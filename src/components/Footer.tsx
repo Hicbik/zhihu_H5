@@ -6,6 +6,7 @@ import { useTypedSelector } from '../store/reducer'
 const Footer: FC = () => {
     const {pathname} = useLocation()
     const online_users = useTypedSelector(state => state.Notice.online_users)
+    const isLogin = useTypedSelector(state => state.User.isLogin)
 
     if (/^\/ChatDeal\//.test(pathname)) {
         return null
@@ -16,7 +17,7 @@ const Footer: FC = () => {
             <p>由Ts+React+Egg.js+MongoDB+Redis驱动</p>
             <p>迷茫是什么?迷茫就是大事干不了,小事不想干,能力配不上欲望,才华配不上梦想。</p>
             <p>© 2020 知乎 v1.0</p>
-            {!!online_users && <p>-- 当前在线用户 : {online_users === 1 ? '1 (没错就是你~)' : online_users} --</p>}
+            {isLogin && !!online_users && <p>-- 当前在线用户 : {online_users === 1 ? '1 (没错就是你~)' : online_users} --</p>}
         </Wrapper>
     )
 }

@@ -17,11 +17,17 @@ const InitState = {
         messageList: [{type: 'he', message: '欢迎来到知乎!', time: 0}],
         newMsg: 0,
     }],
-    win: null
+    win: null,
+    err:false
 }
 
 export default (state: NoticeProps = InitState, action: any): NoticeProps => {
     switch (action.type) {
+        case 'notice/changeErr':
+            return {
+                ...state,
+                err:action.value
+            }
         case 'notice/6666': {
             return {
                 ...state,

@@ -6,11 +6,20 @@ const InitState = {
     isLoad: true,
     pageYOffset: 0,
     PageState: true,
-    type:'推荐'
+    type: '推荐'
 }
 
 export default (state: HomeListProps = InitState, action: any): HomeListProps => {
     switch (action.type) {
+        case 'homeList/initList':
+            return {
+                ...state,
+                page: 1,
+                data: [],
+                isLoad: true,
+                pageYOffset: 0,
+                PageState: true,
+            }
         case 'homeList/changData':
             return {
                 ...state,
@@ -25,7 +34,7 @@ export default (state: HomeListProps = InitState, action: any): HomeListProps =>
                 isLoad: action.value.length >= 8,
                 pageYOffset: 0,
                 PageState: false,
-                type:action.typeValue
+                type: action.typeValue
             }
         case 'homeList/changePageYOffset' :
             return {

@@ -37,7 +37,8 @@ export interface NoticeProps {
         }[],
         newMsg: number
     }[],
-    win: null | string
+    win: null | string,
+    err:boolean
 }
 
 export interface HomeListProps {

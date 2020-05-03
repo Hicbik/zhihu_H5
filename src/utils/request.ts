@@ -5,7 +5,7 @@ import { Toast } from 'antd-mobile'
 
 
 
-axios.defaults.baseURL = 'http://sujie.ink:7001/'
+axios.defaults.baseURL = 'http://192.168.31.218:7001/'
 
 axios.interceptors.request.use(
     config => {

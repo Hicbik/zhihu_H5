@@ -97,7 +97,6 @@ const ReplyEdit: FC<Props> = ({question_id, nickname, avatar, one_sentence_intro
             <div style={{display: 'flex', justifyContent: 'flex-end', padding: 10}}>
                 <PrimaryButton
                     disabled={loading}
-                    loading={loading}
                     onClick={_onButton}
                 >提交回答</PrimaryButton>
             </div>

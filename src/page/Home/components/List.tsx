@@ -1,12 +1,12 @@
 import React, { FC, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { List as MaterialList } from '@material-ui/core'
+import { List as MaterialList, Fab } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
 import { useTypedSelector } from '../../../store/reducer'
 import ListSkeleton from '../../../components/ListSkeleton'
 import QuestionListItem from '../../../components/QuestionListItem'
-
+import IconShuaxin from '../../../components/iconfont/IconShuaxin'
 
 interface Props {
     Request: any,
@@ -29,6 +29,10 @@ const ListBase: FC<Props> = ({Request, tab}) => {
     useEffect(() => {
         ;(async () => {
             if (tab === state.type) return
+            window.scrollTo(0, 0)
+            dispatch({
+                type: 'homeList/initList'
+            })
             const res = await Request({page: 1})
             dispatch({
                 type: 'homeList/InitChangData',
@@ -69,6 +73,7 @@ const ListBase: FC<Props> = ({Request, tab}) => {
         // eslint-disable-next-line
     }, [dispatch])
 
+
     const _onScroll = () => {
         if (PageState.current) return
         let windowHeight = document.documentElement.clientHeight
@@ -80,6 +85,19 @@ const ListBase: FC<Props> = ({Request, tab}) => {
         }
     }
 
+    const _onFab = async () => {
+        window.scrollTo(0, 0)
+        dispatch({
+            type: 'homeList/initList'
+        })
+        const res = await Request({page: 1})
+        dispatch({
+            type: 'homeList/InitChangData',
+            value: res.data,
+            typeValue: tab
+        })
+    }
+
 
     const handleLinkTo = (value: any) => () => {
         setTimeout(() => history.push(`/question/${value._id}`), 500)
@@ -88,6 +106,9 @@ const ListBase: FC<Props> = ({Request, tab}) => {
     // @ts-ignore
     return (
         <Wrapper>
+            <Fab color="primary" className='fab' size='medium' onClick={_onFab}>
+                <IconShuaxin color='#fff' size={24} />
+            </Fab>
 
             <MaterialList
                 component="nav"
@@ -128,6 +149,15 @@ background-color: #f6f6f6;
 
 .MuiListItem-root {
   display:block;
+}
+.fab {
+  position: fixed;
+  right: 15px;
+  bottom: 120px;
+  z-index: 666;
+  &.MuiFab-primary {
+    background-color: #0084ff;
+  }
 }
 `
 

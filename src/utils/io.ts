@@ -8,13 +8,13 @@ export class NoticeIo {
     static init () {
         const {User} = store.getState()
         store.dispatch({
-            type:'notice/6666',
-            time:User.create_time
+            type: 'notice/6666',
+            time: User.create_time
         })
 
         this.GetChat()
 
-        this.socket = io('ws://sujie.ink:7001/', {
+        this.socket = io('ws://192.168.31.218:7001/', {
             query: {
                 userId: User._id
             },
@@ -31,9 +31,9 @@ export class NoticeIo {
                 value: {
                     unread: res.unread,
                     full: {
-                        news:res.full.news,
+                        news: res.full.news,
                         agree: res.full.agree,
-                        attention:res.full.attention
+                        attention: res.full.attention
                     }
                 }
             })
@@ -55,6 +55,19 @@ export class NoticeIo {
             if (!res.docs.length) return
             this.initChat(res.docs)
         })
+
+        this.socket.on('ERR', () => {
+            store.dispatch({
+                type: 'notice/changeErr',
+                value: true
+            })
+            localStorage.removeItem('token')
+            store.dispatch({
+                type: 'user/dropOut'
+            })
+            this.close()
+        })
+
     }
 
 
@@ -152,7 +165,7 @@ export class NoticeIo {
         store.dispatch({
             type: 'notice/chat',
             value: list,
-            chat: list.reduce((pre, next) => pre + next.newMsg,0)
+            chat: list.reduce((pre, next) => pre + next.newMsg, 0)
         })
 
         this.SaveChat()
