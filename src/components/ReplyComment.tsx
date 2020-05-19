@@ -53,7 +53,7 @@ const ReplyComment: FC<Props> = ({
         )
     }
 
-    const _onLike = async ({comment_id, type}: { comment_id: string, type: string }) => {
+    const _onLike = ({comment_id, type}: { comment_id: string, type: string }) => async () => {
         const res = await CommentRequest.Like({history, comment_id, type})
         if (!res) return
         setData(
@@ -102,7 +102,7 @@ const ReplyComment: FC<Props> = ({
                     <div className='footer'>
                         <div
                             className='footer-span'
-                            onClick={() => onLike({
+                            onClick={onLike({
                                 type: value.like_id.includes(user_id) ? 'down' : 'up',
                                 comment_id: value._id
                             })}
@@ -132,7 +132,7 @@ const ReplyComment: FC<Props> = ({
                     <div style={{padding: 10}} key={value._id}>
                         <ReplyCommentItem
                             value={value}
-                            onReplyclick={() => onComment({
+                            onReplyclick={onComment({
                                 name: value.user_id.nickname,
                                 Father_id: value._id,
                                 reply_user_id: value.user_id._id,
@@ -144,7 +144,7 @@ const ReplyComment: FC<Props> = ({
                                 <div style={{paddingLeft: 35}} key={item._id}>
                                     <ReplyCommentItem
                                         value={item}
-                                        onReplyclick={() => onComment({
+                                        onReplyclick={onComment({
                                             name: item.user_id.nickname,
                                             Father_id: value._id,
                                             Child_id: item._id,

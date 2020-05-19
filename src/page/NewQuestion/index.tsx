@@ -10,6 +10,8 @@ import Header from '../../components/Header'
 import IconHao from '../../components/iconfont/IconHao'
 import IconClose from '../../components/iconfont/IconClose'
 import '../../static/css/quill.css'
+import '../../static/css/dracula.min.css'
+
 
 interface TopicProps {
     value: string,
@@ -110,10 +112,12 @@ const NewQuestion: FC = () => {
                             'underline',
                             'strike',
                             'blockquote',
+                            'code-block',
                             {'list': 'bullet'},
-                            'image'
+                            'image',
                         ]
-                    }
+                    },
+                    syntax: true
                 }}
 
                 style={{backgroundColor: '#fff', minHeight: 320}}

@@ -50,6 +50,7 @@ const ListBase: FC<Props> = ({Request, tab}) => {
     }, [])
 
     useEffect(() => {
+        if (!state.isLoad) return
         ;(async () => {
             if (!state.PageState || state.page === 1) return
             const res = await Request({page: state.page})

@@ -12,6 +12,7 @@ import QuestionAd from '../../components/QuestionAd'
 import ReplyEdit from '../../components/ReplyEdit'
 import ErrPage from '../ErrPage'
 import '../../static/css/quill.css'
+import '../../static/css/dracula.min.css'
 
 
 interface data {

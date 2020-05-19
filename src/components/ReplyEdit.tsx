@@ -79,18 +79,20 @@ const ReplyEdit: FC<Props> = ({question_id, nickname, avatar, one_sentence_intro
                 onChange={setValue}
                 placeholder=' 写回答...'
                 modules={{
-                    toolbar: [
-                        [
+                    toolbar: {
+                        container: [
                             {'header': [1, 2, 3, 4, 5, 6, false]},
                             'bold',
                             'italic',
                             'underline',
                             'strike',
                             'blockquote',
+                            'code-block',
                             {'list': 'bullet'},
-                            'image'
+                            'image',
                         ]
-                    ],
+                    },
+                    syntax: true
                 }}
                 style={{minHeight: 320, borderBottom: '1px solid #ebebeb'}}
             />

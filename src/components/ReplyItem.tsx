@@ -38,13 +38,13 @@ const ReplyItem: FC<Props> = ({value, user_id, question_user_id}) => {
     const input: any = useRef(null)
     const ReplyItem = useRef()
 
-    const _onComment = ({name, Father_id, reply_user_id, Child_id}: { name: string, Father_id: string, reply_user_id: string, Child_id?: string }) => {
+    const _onComment = ({name, Father_id, reply_user_id, Child_id}: { name: string, Father_id: string, reply_user_id: string, Child_id?: string }) => () => {
         setLabel({
             text: `回复 ${name}`,
             Father_id,
             type: 'child',
             reply_user_id,
-            Child_id:Child_id!
+            Child_id: Child_id!
         })
         input.current.focus()
     }
@@ -69,7 +69,7 @@ const ReplyItem: FC<Props> = ({value, user_id, question_user_id}) => {
             type: label.type,
             Father_id: label.Father_id,
             reply_user_id: label.reply_user_id,
-            Child_id:label.Child_id
+            Child_id: label.Child_id
         })
         if (!res) return
         // @ts-ignore

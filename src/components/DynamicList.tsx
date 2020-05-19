@@ -15,13 +15,13 @@ const DynamicList: FC<Props> = ({Request, upOnRefresh}) => {
         let to: string
         switch (value.type) {
             case '赞同了回答':
-                return to = `/question/${value.reply_id.question_id}/answer/${value.reply_id._id}`
+                return to = `/question/${value.reply_id.question_id._id}/answer/${value.reply_id._id}`
             case '关注了问题':
                 return to = `/question/${value.question_id._id}`
             case '关注了用户':
                 return to = `/people/${value.attention_user_id._id}`
             case '回答了问题':
-                return to = `/question/${value.reply_id.question_id}/answer/${value.reply_id._id}`
+                return to = `/question/${value.reply_id.question_id._id}/answer/${value.reply_id._id}`
             case '提出了问题' :
                 return to = `/question/${value.question_id._id}`
         }
