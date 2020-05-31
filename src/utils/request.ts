@@ -4,8 +4,7 @@ import store from '../store'
 import { Toast } from 'antd-mobile'
 
 
-
-axios.defaults.baseURL = 'http://192.168.31.218:7001/'
+axios.defaults.baseURL = 'http://192.168.137.1:7001/'
 
 axios.interceptors.request.use(
     config => {
@@ -39,6 +38,12 @@ class Base {
 export class UserRequest extends Base {
     static url = 'user/'
 
+    static async uploadToken () {
+        const res: any = await axios.get('/qiniutoken')
+        if (res.state === 'err') return localStorage.removeItem('qiniuToken')
+        localStorage.setItem('qiniuToken', res.qiniuToken)
+    }
+
     static async Token () {
         const userToken = async () => {
             const token = localStorage.getItem('token')
@@ -50,17 +55,11 @@ export class UserRequest extends Base {
                 value: {...res.data}
             })
         }
-        const uploadToken = async () => {
-            const token = localStorage.getItem('qiniuToken')
-            if (token) return
-            const res: any = await axios.get('/qiniutoken')
-            if (res.state === 'err') return localStorage.removeItem('qiniuToken')
-            localStorage.setItem('qiniuToken', res.qiniuToken)
-        }
+
 
         await Promise.all([
             userToken(),
-            uploadToken()
+            this.uploadToken()
         ])
     }
 
@@ -135,8 +134,8 @@ export class QuestionRequest extends Base {
         ))
     }
 
-    static getReply ({question_id, reply_id}: { question_id: string | undefined, reply_id?: string }) {
-        return axios.get(this.url + 'getReply', {params: {question_id, reply_id}})
+    static getReply ({question_id, reply_id, page}: { question_id: string | undefined, reply_id?: string, page: number }) {
+        return axios.get(this.url + 'getReply', {params: {question_id, reply_id, page}})
     }
 
     static voters ({like, reply_id, history}: { like: { flag: string, type: string }, reply_id: string, history: any }) {

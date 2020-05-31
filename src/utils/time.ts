@@ -22,14 +22,14 @@ export const DiffTime = (time: any) => {
 export const ChatTime = (time: any) => {
     const ptime = dayjs(time)
     let dateDiff
-    if (!nowDate.isSame(time, 'year')) return ptime.format('YYYY年 MM月DD日 HH:m')
+    if (!nowDate.isSame(time, 'year')) return ptime.format('YYYY年 MM月DD日 HH:mm')
 
 
     dateDiff = nowDate.diff(ptime, 'day')
-    if (dateDiff === 1) return ptime.format('昨天 HH:m')
-    if (dateDiff > 1) return ptime.format('MM月DD日 HH:m')
+    if (dateDiff === 1) return ptime.format('昨天 HH:mm')
+    if (dateDiff > 1) return ptime.format('MM月DD日 HH:mm')
 
-    return ptime.format('HH:m')
+    return ptime.format('HH:mm')
 }
 
 export const messageTime = (prevTime: any, time: any) => {

@@ -47,6 +47,7 @@ const SignIn: FC = () => {
             value: {...res.data}
         })
         localStorage.setItem('token', res.token)
+        await UserRequest.uploadToken()
         Toast.success(type + '成功', 1.5, () => history.push('/'))
     }
 

@@ -6,10 +6,12 @@ import { UserRequest } from '../../../utils/request'
 import { NoticeIo } from '../../../utils/io'
 import AvatarBox from './AvatarBox'
 import ContentBox from './ContentBox'
-
+import { useTypedSelector } from '../../../store/reducer'
 
 
 const NoticeQuestionList: FC = () => {
+
+    const state = useTypedSelector(state => state.User)
 
     const Request = useCallback(({page}) => {
         return UserRequest.getNotice({page, type: '消息'})
@@ -17,10 +19,16 @@ const NoticeQuestionList: FC = () => {
 
     const ListLinkItem = ({value, LinkTo}: { value: any, LinkTo: any }) => {
 
+
         const _onButton = () => {
             if (value.see) return
             setTimeout(() => NoticeIo.HaveRead({_id: value._id}), 1000)
         }
+
+        const content = value.text === '回答了你的问题' ? value.question_id.title : `${state.nickname}：` + (
+            value.text === '回复了你的评论' ? value.comment_id.content : value.reply_id.content
+        )
+
 
         return (
             <ListItemWrapper button onClick={_onButton}>
@@ -28,7 +36,7 @@ const NoticeQuestionList: FC = () => {
                 <ContentBox
                     LinkTo={LinkTo}
                     content={value.text === '回答了你的问题' ? value.res_reply_id.content : value.res_comment_id.content}
-                    title={value.text === '回答了你的问题' ? value.question_id.title : (value.comment_id ? value.comment_id.content : value.reply_id.content)}
+                    title={content}
                 />
             </ListItemWrapper>
         )
@@ -39,7 +47,7 @@ const NoticeQuestionList: FC = () => {
         <ListBase
             RenderListItem={ListLinkItem}
             Request={Request}
-            LinkTo={value => `/question/${value.question_id._id}/answer/${value.reply_id._id}`}
+            LinkTo={value => `/question/${value.question_id._id}/answer/${value.reply_id ? value.reply_id._id : value.res_reply_id._id}`}
         />
     )
 }

@@ -14,7 +14,7 @@ export class NoticeIo {
 
         this.GetChat()
 
-        this.socket = io('ws://192.168.31.218:7001/', {
+        this.socket = io('ws://192.168.137.1:7001/', {
             query: {
                 userId: User._id
             },
@@ -181,16 +181,18 @@ export class NoticeIo {
 
     static SendChat ({send_user, receive_user_id, message}: { send_user: any, receive_user_id: string, message: string }) {
         const time = Date.now()
-        this.socket.emit('CHAT', {
-            send_user: {
-                _id: send_user._id,
-                avatar: send_user.avatar,
-                nickname: send_user.nickname
-            },
-            receive_user_id,
-            message,
-            time,
-        })
+        if (receive_user_id !== '666') {
+            this.socket.emit('CHAT', {
+                send_user: {
+                    _id: send_user._id,
+                    avatar: send_user.avatar,
+                    nickname: send_user.nickname
+                },
+                receive_user_id,
+                message,
+                time,
+            })
+        }
         this.addChatMessage({type: 'my', send_user: {_id: receive_user_id}, message, time})
     }
 

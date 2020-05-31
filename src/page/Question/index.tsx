@@ -50,7 +50,7 @@ const Question: FC = () => {
 
     useEffect(() => {
         ;(async () => {
-            const res: any = await QuestionRequest.getReply({question_id: _id, reply_id: _reply_id})
+            const res: any = await QuestionRequest.getReply({question_id: _id, reply_id: _reply_id, page: 1})
             if (res.state === 'err') return
             // @ts-ignore
             setReplyList([...res.data])
