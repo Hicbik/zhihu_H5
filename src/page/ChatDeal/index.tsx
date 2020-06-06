@@ -6,6 +6,7 @@ import { useTypedSelector } from '../../store/reducer'
 import HeaderBar from '../../components/HeaderBar'
 import Input from './components/Input'
 import ChatList from './components/ChatList'
+import { NoticeIo } from '../../utils/io'
 
 
 const ChatDeal: FC = () => {
@@ -16,7 +17,6 @@ const ChatDeal: FC = () => {
     const {_id} = useParams()
 
     const index = chatList.findIndex(value => value.user_id === _id)
-
 
     useEffect(() => {
         dispatch({
@@ -33,6 +33,7 @@ const ChatDeal: FC = () => {
                 type: 'notice/changeWin',
                 value: null
             })
+            NoticeIo.SaveChat()
         }
         // eslint-disable-next-line
     }, [])

@@ -60,7 +60,9 @@ const EditPeople: FC = () => {
         let i = 0
         for (let key in user) {
             // @ts-ignore
-            i = state[key] === user[key] ? i + 1 : i
+            if (state[key] !== undefined) continue
+            // @ts-ignore
+            i = state[key].toString() === user[key].toString() ? i + 1 : i
         }
         i = avatar === state.avatar ? i + 1 : i
         if (i === 4) return Toast.offline('明明都没有编辑过!', 1.5)
