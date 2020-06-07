@@ -66,7 +66,7 @@ const SignIn: FC = () => {
             <Header>
                 <h1>{type}知乎</h1>
                 <p>发现更多可信赖的解答</p>
-                <IconButton href='/' style={{position: 'absolute', right: 15, top: 15, fontWeight: 'bold', padding: 5}}>
+                <IconButton onClick={()=>history.push('/')} style={{position: 'absolute', right: 15, top: 15, fontWeight: 'bold', padding: 5}}>
                     <IconClose color='#fff' size={26} />
                 </IconButton>
             </Header>

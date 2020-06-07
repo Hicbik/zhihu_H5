@@ -14,7 +14,7 @@ export class NoticeIo {
 
         this.GetChat()
 
-        this.socket = io('ws://192.168.137.1:7001/', {
+        this.socket = io('ws://sujie.ink:7001/', {
             query: {
                 userId: User._id
             },

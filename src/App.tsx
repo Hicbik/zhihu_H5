@@ -42,8 +42,8 @@ const App: FC = () => {
                     />
                     <Route
                         path='/downApp'
-                        component={lazy(() => import('./components/HeaderDrawer'))}
-                        title='正在开发中 敬请期待!'
+                        component={lazy(() => import('./page/DownApp'))}
+                        title='下载App - 知乎'
                         exact
                     />
                     <Route

@@ -11,15 +11,14 @@ const PeopleQuestionList: FC<Props> = ({Request, upOnRefresh = true}) => {
 
 
     return (
-            <ListBase
-                RenderListItem={PeopleQuestionListItem}
-                LinkTo={value => `/question/${value._id}`}
-                Request={Request}
-                upOnRefresh={upOnRefresh}
-            />
+        <ListBase
+            RenderListItem={PeopleQuestionListItem}
+            LinkTo={value => `/question/${value._id}`}
+            Request={Request}
+            upOnRefresh={upOnRefresh}
+        />
     )
 }
-
 
 
 export default PeopleQuestionList

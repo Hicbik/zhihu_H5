@@ -60,12 +60,12 @@ const EditPeople: FC = () => {
         let i = 0
         for (let key in user) {
             // @ts-ignore
-            if (state[key] !== undefined) continue
+            if ( key === 'load') continue
             // @ts-ignore
             i = state[key].toString() === user[key].toString() ? i + 1 : i
         }
         i = avatar === state.avatar ? i + 1 : i
-        if (i === 4) return Toast.offline('明明都没有编辑过!', 1.5)
+        if (i === 5) return Toast.offline('明明都没有编辑过!', 1.5)
 
         Toast.loading('编辑中...', 0)
         let avatarUrl: string = ''

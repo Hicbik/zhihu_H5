@@ -8,7 +8,7 @@ const Footer: FC = () => {
     const online_users = useTypedSelector(state => state.Notice.online_users)
     const isLogin = useTypedSelector(state => state.User.isLogin)
 
-    if (/^\/ChatDeal\//.test(pathname)) {
+    if (/^\/ChatDeal\//.test(pathname) || /^\/downApp/.test(pathname)) {
         return null
     }
 

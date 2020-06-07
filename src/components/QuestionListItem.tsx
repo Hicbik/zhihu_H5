@@ -18,10 +18,9 @@ const QuestionListItem: FC<Props> = ({value, LinkTo}) => {
     const DefaultContent = () => (
         <Fragment>
             <section>
-                <TextWrapper
-                    className={!!value.image_field.length ? 'des' : ''}
-                    dangerouslySetInnerHTML={{__html: value.content}}
-                />
+                <TextWrapper className={!!value.image_field.length ? 'des' : ''}>
+                    { value.content}
+                </TextWrapper>
                 {
                     !!value.image_field.length && (
                         <img src={value.image_field[0]} className='small-img' alt='' />
@@ -50,10 +49,9 @@ const QuestionListItem: FC<Props> = ({value, LinkTo}) => {
     const AnswerContent = () => (
         <Fragment>
             <section>
-                <TextWrapper
-                    className={!!value.image_field.length ? 'des' : ''}
-                    dangerouslySetInnerHTML={{__html: value.reply_id[0].reply.content}}
-                />
+                <TextWrapper className={!!value.image_field.length ? 'des' : ''}>
+                    {value.reply_id[0].reply.content}
+                </TextWrapper>
                 {
                     !!value.image_field.length && (
                         <img src={value.image_field[0]} className='small-img' alt='' />
@@ -71,10 +69,9 @@ const QuestionListItem: FC<Props> = ({value, LinkTo}) => {
     const ButtonContent = () => (
         <Fragment>
             <section>
-                <TextWrapper
-                    className={!!value.reply_id[0].reply.image_field.length ? 'des' : ''}
-                    dangerouslySetInnerHTML={{__html: `${value.reply_id[0].user.nickname}： ${value.reply_id[0].reply.content}`}}
-                />
+                <TextWrapper className={!!value.reply_id[0].reply.image_field.length ? 'des' : ''}>
+                    {value.reply_id[0].user.nickname}： {value.reply_id[0].reply.content}
+                </TextWrapper>
                 {
                     !!value.reply_id[0].reply.image_field.length && (
                         <img src={value.reply_id[0].reply.image_field[0]} className='small-img' alt='' />
