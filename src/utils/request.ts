@@ -2,12 +2,16 @@ import axios from 'axios'
 import * as qiniu from 'qiniu-js'
 import store from '../store'
 import { Toast } from 'antd-mobile'
+import NProgress from 'nprogress'
 
+NProgress.configure({ showSpinner: false });
 
 axios.defaults.baseURL = 'http://sujie.ink:7001/'
 
 axios.interceptors.request.use(
     config => {
+        console.log(1)
+        NProgress.start()
         const token = localStorage.getItem('token')
         if (token) config.headers.Authorization = token
         return config
@@ -19,6 +23,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
     response => {
+        NProgress.done()
         return response.data
     }
 )

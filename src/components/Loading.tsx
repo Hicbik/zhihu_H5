@@ -2,7 +2,6 @@ import React, { FC, useEffect } from 'react'
 import { CircularProgress } from '@material-ui/core'
 import styled from 'styled-components'
 import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
 
 
 const Loading: FC = () => {
