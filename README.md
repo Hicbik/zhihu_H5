@@ -1,5 +1,8 @@
 ##  知乎 h5
 
+[![GitHub Streak](https://github-readme-streak-stats.herokuapp.com?user=Hicbik&theme=tokyonight_duo&locale=zh)](https://git.io/streak-stats)
+
+
 > ####  使用React开发的知乎移动端app
 > 预览地址 : http://sujie.ink
 
